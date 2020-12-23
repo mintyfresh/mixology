@@ -17,6 +17,8 @@
 #  index_users_on_email         (email) UNIQUE
 #
 class User < ApplicationRecord
+  has_many :recipes, dependent: :destroy, foreign_key: :author_id, inverse_of: :author
+
   validates :email, email: true
   validates :display_name, display_name: true
   validates :date_of_birth, presence: true
