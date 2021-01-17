@@ -18,6 +18,7 @@ gem 'pundit'
 gem 'rails', '~> 6.1.0'
 gem 'seedbank'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+gem 'unitwise'
 
 group :development do
   gem 'annotate'

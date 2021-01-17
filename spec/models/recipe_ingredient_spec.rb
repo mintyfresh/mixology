@@ -4,11 +4,13 @@
 #
 # Table name: recipe_ingredients
 #
-#  id            :bigint           not null, primary key
-#  recipe_id     :bigint           not null
-#  ingredient_id :bigint           not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id              :bigint           not null, primary key
+#  recipe_id       :bigint           not null
+#  ingredient_id   :bigint           not null
+#  quantity_amount :float
+#  quantity_unit   :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 # Indexes
 #
@@ -37,6 +39,31 @@ RSpec.describe RecipeIngredient, type: :model do
 
   it 'is invalid without an ingredient' do
     recipe_ingredient.ingredient = nil
+    expect(recipe_ingredient).to be_invalid
+  end
+
+  it 'is valid without a quantity amount' do
+    recipe_ingredient.quantity_amount = nil
+    expect(recipe_ingredient).to be_valid
+  end
+
+  it 'is invalid when quantity amount is zero' do
+    recipe_ingredient.quantity_amount = 0
+    expect(recipe_ingredient).to be_invalid
+  end
+
+  it 'is invalid when quantity amount is negative' do
+    recipe_ingredient.quantity_amount = -1
+    expect(recipe_ingredient).to be_invalid
+  end
+
+  it 'is valid without a quantity unit' do
+    recipe_ingredient.quantity_unit = nil
+    expect(recipe_ingredient).to be_valid
+  end
+
+  it 'is invalid when the quantity unit is unsupported' do
+    recipe_ingredient.quantity_unit = 'unsupported'
     expect(recipe_ingredient).to be_invalid
   end
 end

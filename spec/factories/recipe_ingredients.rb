@@ -4,11 +4,13 @@
 #
 # Table name: recipe_ingredients
 #
-#  id            :bigint           not null, primary key
-#  recipe_id     :bigint           not null
-#  ingredient_id :bigint           not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id              :bigint           not null, primary key
+#  recipe_id       :bigint           not null
+#  ingredient_id   :bigint           not null
+#  quantity_amount :float
+#  quantity_unit   :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 # Indexes
 #
@@ -25,5 +27,10 @@ FactoryBot.define do
   factory :recipe_ingredient do
     association :recipe, strategy: :build
     association :ingredient, strategy: :build
+
+    trait :with_quantity do
+      quantity_amount { rand(1..100) }
+      quantity_unit { RecipeEquipment::SUPPORTED_UNITS.sample }
+    end
   end
 end
