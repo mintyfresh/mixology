@@ -35,7 +35,7 @@ RSpec.describe RecipeIngredient, type: :model do
     expect(recipe_ingredient).to be_invalid
   end
 
-  it 'is invalid without a ingredient' do
+  it 'is invalid without an ingredient' do
     recipe_ingredient.ingredient = nil
     expect(recipe_ingredient).to be_invalid
   end

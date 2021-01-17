@@ -102,6 +102,38 @@ ALTER SEQUENCE public.ingredients_id_seq OWNED BY public.ingredients.id;
 
 
 --
+-- Name: recipe_equipments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.recipe_equipments (
+    id bigint NOT NULL,
+    recipe_id bigint NOT NULL,
+    equipment_id bigint NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: recipe_equipments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.recipe_equipments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: recipe_equipments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.recipe_equipments_id_seq OWNED BY public.recipe_equipments.id;
+
+
+--
 -- Name: recipe_ingredients; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -223,6 +255,13 @@ ALTER TABLE ONLY public.ingredients ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: recipe_equipments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recipe_equipments ALTER COLUMN id SET DEFAULT nextval('public.recipe_equipments_id_seq'::regclass);
+
+
+--
 -- Name: recipe_ingredients id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -265,6 +304,14 @@ ALTER TABLE ONLY public.equipment
 
 ALTER TABLE ONLY public.ingredients
     ADD CONSTRAINT ingredients_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: recipe_equipments recipe_equipments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recipe_equipments
+    ADD CONSTRAINT recipe_equipments_pkey PRIMARY KEY (id);
 
 
 --
@@ -311,6 +358,27 @@ CREATE UNIQUE INDEX index_equipment_on_name ON public.equipment USING btree (nam
 --
 
 CREATE UNIQUE INDEX index_ingredients_on_name ON public.ingredients USING btree (name);
+
+
+--
+-- Name: index_recipe_equipments_on_equipment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_recipe_equipments_on_equipment_id ON public.recipe_equipments USING btree (equipment_id);
+
+
+--
+-- Name: index_recipe_equipments_on_recipe_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_recipe_equipments_on_recipe_id ON public.recipe_equipments USING btree (recipe_id);
+
+
+--
+-- Name: index_recipe_equipments_on_recipe_id_and_equipment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_recipe_equipments_on_recipe_id_and_equipment_id ON public.recipe_equipments USING btree (recipe_id, equipment_id);
 
 
 --
@@ -380,6 +448,22 @@ ALTER TABLE ONLY public.recipe_ingredients
 
 
 --
+-- Name: recipe_equipments fk_rails_64ca1526c3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recipe_equipments
+    ADD CONSTRAINT fk_rails_64ca1526c3 FOREIGN KEY (equipment_id) REFERENCES public.equipment(id);
+
+
+--
+-- Name: recipe_equipments fk_rails_864a7441a2; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recipe_equipments
+    ADD CONSTRAINT fk_rails_864a7441a2 FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -390,6 +474,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201222234451'),
 ('20210117014621'),
 ('20210117015501'),
-('20210117023118');
+('20210117023118'),
+('20210117023832');
 
 

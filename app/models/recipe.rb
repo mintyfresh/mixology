@@ -25,6 +25,9 @@ class Recipe < ApplicationRecord
   has_many :recipe_ingredients, dependent: :destroy, inverse_of: :recipe
   has_many :ingredients, through: :recipe_ingredients
 
+  has_many :recipe_equipments, dependent: :destroy, inverse_of: :recipe
+  has_many :equipments, through: :recipe_equipments
+
   validates :name, presence: true, length: { maximum: 100 }
   validates :description, length: { maximum: 2500 }
 end
