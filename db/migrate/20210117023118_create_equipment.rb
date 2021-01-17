@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class CreateIngredients < ActiveRecord::Migration[6.1]
+class CreateEquipment < ActiveRecord::Migration[6.1]
   def change
-    create_table :ingredients do |t|
+    create_table :equipment do |t|
       t.citext     :name, null: false, index: { unique: true }
       t.timestamps default: -> { 'NOW()' }
     end

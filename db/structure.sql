@@ -40,13 +40,43 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: equipment; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.equipment (
+    id bigint NOT NULL,
+    name public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: equipment_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.equipment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: equipment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.equipment_id_seq OWNED BY public.equipment.id;
+
+
+--
 -- Name: ingredients; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.ingredients (
     id bigint NOT NULL,
     name public.citext NOT NULL,
-    data jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
 );
@@ -179,6 +209,13 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- Name: equipment id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.equipment ALTER COLUMN id SET DEFAULT nextval('public.equipment_id_seq'::regclass);
+
+
+--
 -- Name: ingredients id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -212,6 +249,14 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: equipment equipment_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.equipment
+    ADD CONSTRAINT equipment_pkey PRIMARY KEY (id);
 
 
 --
@@ -252,6 +297,20 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_equipment_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_equipment_on_name ON public.equipment USING btree (name);
+
+
+--
+-- Name: index_ingredients_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_ingredients_on_name ON public.ingredients USING btree (name);
 
 
 --
@@ -330,6 +389,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201222225257'),
 ('20201222234451'),
 ('20210117014621'),
-('20210117015501');
+('20210117015501'),
+('20210117023118');
 
 

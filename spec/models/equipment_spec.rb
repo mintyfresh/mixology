@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: ingredients
+# Table name: equipment
 #
 #  id         :bigint           not null, primary key
 #  name       :citext           not null
@@ -11,24 +11,24 @@
 #
 # Indexes
 #
-#  index_ingredients_on_name  (name) UNIQUE
+#  index_equipment_on_name  (name) UNIQUE
 #
 require 'rails_helper'
 
-RSpec.describe Ingredient, type: :model do
-  subject(:ingredient) { build(:ingredient) }
+RSpec.describe Equipment, type: :model do
+  subject(:equipment) { build(:equipment) }
 
   it 'has a valid factory' do
-    expect(ingredient).to be_valid
+    expect(equipment).to be_valid
   end
 
   it 'is invalid without a name' do
-    ingredient.name = nil
-    expect(ingredient).to be_invalid
+    equipment.name = nil
+    expect(equipment).to be_invalid
   end
 
   it 'is invalid when the name is longer than 100 characters' do
-    ingredient.name = 'a' * 101
-    expect(ingredient).to be_invalid
+    equipment.name = 'a' * 101
+    expect(equipment).to be_invalid
   end
 end
