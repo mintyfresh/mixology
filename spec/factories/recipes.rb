@@ -35,5 +35,25 @@ FactoryBot.define do
         recipe.ingredients = build_list(:ingredient, e.ingredients_count)
       end
     end
+
+    trait :with_equipments do
+      transient do
+        equipments_count { 3 }
+      end
+
+      after(:build) do |recipe, e|
+        recipe.equipments = build_list(:equipment, e.equipments_count)
+      end
+    end
+
+    trait :with_steps do
+      transient do
+        steps_count { 3 }
+      end
+
+      after(:build) do |recipe, e|
+        recipe.steps = build_list(:recipe_step, e.steps_count)
+      end
+    end
   end
 end

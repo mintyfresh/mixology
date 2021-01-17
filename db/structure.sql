@@ -166,6 +166,39 @@ ALTER SEQUENCE public.recipe_ingredients_id_seq OWNED BY public.recipe_ingredien
 
 
 --
+-- Name: recipe_steps; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.recipe_steps (
+    id bigint NOT NULL,
+    recipe_id bigint NOT NULL,
+    body character varying NOT NULL,
+    "position" integer NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: recipe_steps_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.recipe_steps_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: recipe_steps_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.recipe_steps_id_seq OWNED BY public.recipe_steps.id;
+
+
+--
 -- Name: recipes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -269,6 +302,13 @@ ALTER TABLE ONLY public.recipe_ingredients ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
+-- Name: recipe_steps id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recipe_steps ALTER COLUMN id SET DEFAULT nextval('public.recipe_steps_id_seq'::regclass);
+
+
+--
 -- Name: recipes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -320,6 +360,14 @@ ALTER TABLE ONLY public.recipe_equipments
 
 ALTER TABLE ONLY public.recipe_ingredients
     ADD CONSTRAINT recipe_ingredients_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: recipe_steps recipe_steps_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recipe_steps
+    ADD CONSTRAINT recipe_steps_pkey PRIMARY KEY (id);
 
 
 --
@@ -403,6 +451,13 @@ CREATE UNIQUE INDEX index_recipe_ingredients_on_recipe_id_and_ingredient_id ON p
 
 
 --
+-- Name: index_recipe_steps_on_recipe_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_recipe_steps_on_recipe_id ON public.recipe_steps USING btree (recipe_id);
+
+
+--
 -- Name: index_recipes_on_author_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -464,6 +519,14 @@ ALTER TABLE ONLY public.recipe_equipments
 
 
 --
+-- Name: recipe_steps fk_rails_b7d194c7f5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recipe_steps
+    ADD CONSTRAINT fk_rails_b7d194c7f5 FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -475,6 +538,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210117014621'),
 ('20210117015501'),
 ('20210117023118'),
-('20210117023832');
+('20210117023832'),
+('20210117024329');
 
 
