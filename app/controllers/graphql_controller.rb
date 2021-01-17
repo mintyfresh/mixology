@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class GraphqlController < ApplicationController
+class GraphQLController < ApplicationController
   def execute
     query          = params[:query]
     operation_name = params[:operationName]
