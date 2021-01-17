@@ -7,6 +7,7 @@
 #  id           :bigint           not null, primary key
 #  recipe_id    :bigint           not null
 #  equipment_id :bigint           not null
+#  quantity     :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
@@ -25,5 +26,9 @@ FactoryBot.define do
   factory :recipe_equipment do
     association :recipe, strategy: :build
     association :equipment, strategy: :build
+
+    trait :with_quantity do
+      quantity { rand(1..10) }
+    end
   end
 end

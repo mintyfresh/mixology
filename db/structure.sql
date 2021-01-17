@@ -109,6 +109,7 @@ CREATE TABLE public.recipe_equipments (
     id bigint NOT NULL,
     recipe_id bigint NOT NULL,
     equipment_id bigint NOT NULL,
+    quantity integer,
     created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
 );

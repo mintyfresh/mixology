@@ -12,6 +12,13 @@ class GraphqlController < ApplicationController
 
 private
 
+  # @return [Hash]
+  def build_context
+    { current_user: User.last, # TODO
+      ip:           request.ip,
+      user_agent:   request.user_agent }
+  end
+
   # Handle variables in form data, JSON body, or a blank value
   # @param variables_params [String, Hash, ActionController::Parameters, nil]
   # @return [Hash]

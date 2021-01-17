@@ -7,6 +7,7 @@
 #  id           :bigint           not null, primary key
 #  recipe_id    :bigint           not null
 #  equipment_id :bigint           not null
+#  quantity     :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
@@ -24,4 +25,6 @@
 class RecipeEquipment < ApplicationRecord
   belongs_to :recipe, inverse_of: :recipe_equipments
   belongs_to :equipment, inverse_of: :recipe_equipments
+
+  validates :quantity, numericality: { allow_nil: true, greater_than: 0 }
 end

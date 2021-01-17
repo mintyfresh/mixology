@@ -24,12 +24,12 @@ module Mutations
     # @return [Recipe]
     def build_recipe(input)
       Recipe.new(
-        author:      current_user,
-        name:        input.name,
-        description: input.description,
-        ingredients: build_ingredients(input),
-        equipments:  build_equipments(input),
-        steps:       build_steps(input)
+        author:            current_user,
+        name:              input.name,
+        description:       input.description,
+        ingredients:       build_ingredients(input),
+        recipe_equipments: build_recipe_equipments(input),
+        steps:             build_recipe_steps(input)
       )
     end
 
@@ -45,20 +45,20 @@ module Mutations
       end
     end
 
-    # @return [Array<Equipment>]
-    def build_equipments(input)
+    # @return [Array<RecipeEquipment>]
+    def build_recipe_equipments(input)
       return [] if input.equipments.blank?
 
-      equipments = input.equipments.reject(&:blank?)
-      return [] if equipments.empty?
-
-      equipments.uniq.map do |equipment|
-        Equipment.create_or_find_by!(name: equipment)
+      input.equipments.uniq(&:name).map do |equipment|
+        RecipeEquipment.new(
+          equipment: Equipment.create_or_find_by!(name: equipment.name),
+          quantity:  equipment.quantity
+        )
       end
     end
 
     # @return [Array<RecipeStep>]
-    def build_steps(input)
+    def build_recipe_steps(input)
       return [] if input.steps.blank?
 
       steps = input.steps.reject(&:blank?)

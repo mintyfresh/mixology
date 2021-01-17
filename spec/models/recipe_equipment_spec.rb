@@ -7,6 +7,7 @@
 #  id           :bigint           not null, primary key
 #  recipe_id    :bigint           not null
 #  equipment_id :bigint           not null
+#  quantity     :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
@@ -37,6 +38,21 @@ RSpec.describe RecipeEquipment, type: :model do
 
   it 'is invalid without an equipment' do
     recipe_equipment.equipment = nil
+    expect(recipe_equipment).to be_invalid
+  end
+
+  it 'is valid without a quantity' do
+    recipe_equipment.quantity = nil
+    expect(recipe_equipment).to be_valid
+  end
+
+  it 'is invalid when the quantity is zero' do
+    recipe_equipment.quantity = 0
+    expect(recipe_equipment).to be_invalid
+  end
+
+  it 'is invalid when the quantity is negative' do
+    recipe_equipment.quantity = -1
     expect(recipe_equipment).to be_invalid
   end
 end

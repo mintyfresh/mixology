@@ -8,7 +8,7 @@ module Mutations
 
     # @return [User, nil]
     def current_user
-      nil # TODO
+      context[:current_user]
     end
   end
 end
