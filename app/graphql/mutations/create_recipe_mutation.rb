@@ -5,7 +5,7 @@ module Mutations
     argument :input, Types::CreateRecipeInputType, required: true
 
     field :recipe, Types::RecipeType, null: true
-    field :errors, [String], null: true
+    field :errors, [Types::ValidationErrorType], null: true
 
     def resolve(input:)
       Recipe.transaction do
@@ -14,7 +14,7 @@ module Mutations
         if recipe.save
           { recipe: recipe }
         else
-          { errors: recipe.errors.full_messages }
+          { errors: recipe.errors }
         end
       end
     end
@@ -62,10 +62,7 @@ module Mutations
     def build_recipe_steps(input)
       return [] if input.steps.blank?
 
-      steps = input.steps.reject(&:blank?)
-      return [] if steps.empty?
-
-      steps.map.with_index do |step, index|
+      input.steps.map.with_index do |step, index|
         RecipeStep.new(body: step, position: index)
       end
     end

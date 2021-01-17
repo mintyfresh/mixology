@@ -28,7 +28,7 @@ class Recipe < ApplicationRecord
   has_many :recipe_equipments, dependent: :destroy, inverse_of: :recipe
   has_many :equipments, through: :recipe_equipments
 
-  has_many :steps, class_name: 'RecipeStep', dependent: :destroy, inverse_of: :recipe
+  has_many :steps, autosave: true, class_name: 'RecipeStep', dependent: :destroy, inverse_of: :recipe
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :description, length: { maximum: 2500 }

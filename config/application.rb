@@ -37,6 +37,8 @@ module Mixology
     # Load translations from subdirectories of `config/locales` as well.
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
+    config.active_record.index_nested_attribute_errors = true
+
     # Dump structure file in PostgreSQL native format.
     config.active_record.schema_format = :sql
 

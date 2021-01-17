@@ -10,6 +10,7 @@ gem 'amazing_print'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'graphql'
 gem 'graphql-batch'
+gem 'graphql-rails_logger'
 gem 'image_processing', '~> 1.2'
 gem 'oj'
 gem 'pg', '~> 1.1'
