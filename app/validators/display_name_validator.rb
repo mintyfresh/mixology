@@ -3,7 +3,7 @@
 class DisplayNameValidator < ActiveModel::EachValidator
   MINIMUM_LENGTH      = 3
   MAXIMUM_LENGTH      = 50
-  DISPLAY_NAME_FORMAT = /\A[[:print:]]*\z/.freeze
+  DISPLAY_NAME_FORMAT = /\A[[:print:]]*\z/
 
   # @param record [ApplicationRecord, ApplicationForm]
   # @param attribute [Symbol]

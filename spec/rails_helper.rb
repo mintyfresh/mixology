@@ -12,7 +12,7 @@ require 'rspec/rails'
 require 'pundit/rspec'
 
 # Add additional requires below this line. Rails is not loaded until this point!
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |filename| require(filename) }
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |filename| require(filename) }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
