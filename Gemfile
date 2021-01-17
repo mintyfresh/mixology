@@ -8,6 +8,8 @@ ruby '3.0.0'
 
 gem 'amazing_print'
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'dry-struct'
+gem 'dry-types'
 gem 'graphql'
 gem 'graphql-batch'
 gem 'graphql-rails_logger'

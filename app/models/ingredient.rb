@@ -14,8 +14,10 @@
 #  index_ingredients_on_name  (name) UNIQUE
 #
 class Ingredient < ApplicationRecord
+  NAME_MAX_LENGTH = 100
+
   has_many :recipe_ingredients, dependent: :destroy, inverse_of: :ingredient
   has_many :recipes, through: :recipe_ingredients
 
-  validates :name, presence: true, length: { maximum: 100 }
+  validates :name, presence: true, length: { maximum: NAME_MAX_LENGTH }
 end

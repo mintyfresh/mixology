@@ -20,6 +20,12 @@
 #  fk_rails_...  (author_id => users.id)
 #
 class Recipe < ApplicationRecord
+  NAME_MAX_LENGTH        = 100
+  DESCRIPTION_MAX_LENGTH = 2500
+  INGREDIENTS_MAX_LENGTH = 25
+  EQUIPMENTS_MAX_LENGTH  = 25
+  STEPS_MAX_LENGTH       = 50
+
   belongs_to :author, class_name: 'User', inverse_of: :recipes
 
   has_many :recipe_ingredients, dependent: :destroy, inverse_of: :recipe
@@ -30,6 +36,6 @@ class Recipe < ApplicationRecord
 
   has_many :steps, autosave: true, class_name: 'RecipeStep', dependent: :destroy, inverse_of: :recipe
 
-  validates :name, presence: true, length: { maximum: 100 }
-  validates :description, length: { maximum: 2500 }
+  validates :name, presence: true, length: { maximum: NAME_MAX_LENGTH }
+  validates :description, length: { maximum: DESCRIPTION_MAX_LENGTH }
 end
