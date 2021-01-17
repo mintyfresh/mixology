@@ -5,5 +5,10 @@ module Mutations
     argument_class Types::BaseArgument
     field_class Types::BaseField
     object_class Types::BaseObject
+
+    # @return [User, nil]
+    def current_user
+      nil # TODO
+    end
   end
 end
