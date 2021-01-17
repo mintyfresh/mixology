@@ -25,5 +25,15 @@ FactoryBot.define do
 
     name { Faker::Food.dish }
     description { Faker::Food.description }
+
+    trait :with_ingredients do
+      transient do
+        ingredients_count { 3 }
+      end
+
+      after(:build) do |recipe, e|
+        recipe.ingredients = build_list(:ingredient, e.ingredients_count)
+      end
+    end
   end
 end

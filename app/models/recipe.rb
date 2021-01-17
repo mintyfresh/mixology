@@ -22,6 +22,9 @@
 class Recipe < ApplicationRecord
   belongs_to :author, class_name: 'User', inverse_of: :recipes
 
+  has_many :recipe_ingredients, dependent: :destroy, inverse_of: :recipe
+  has_many :ingredients, through: :recipe_ingredients
+
   validates :name, presence: true, length: { maximum: 100 }
   validates :description, length: { maximum: 2500 }
 end

@@ -12,7 +12,6 @@
 #
 FactoryBot.define do
   factory :ingredient do
-    type { 'Ingredient' }
     name { Faker::Food.ingredient }
   end
 end
