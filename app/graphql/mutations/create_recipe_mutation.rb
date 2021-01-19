@@ -8,6 +8,7 @@ module Mutations
     field :errors, [Types::ValidationErrorType], null: true
 
     def resolve(input:)
+      authorize(Recipe, :create?)
       input = input.to_h.merge(author: current_user)
 
       case (result = CreateRecipeForm.perform(input))

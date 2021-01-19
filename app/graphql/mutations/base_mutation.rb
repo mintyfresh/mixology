@@ -2,7 +2,7 @@
 
 module Mutations
   class BaseMutation < GraphQL::Schema::Mutation
-    include GraphQLContext
+    include Authorization
 
     argument_class Types::BaseArgument
     field_class Types::BaseField
