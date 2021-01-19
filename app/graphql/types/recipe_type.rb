@@ -8,17 +8,28 @@ module Types
     field :ingredients, [String], null: false
     field :equipments, [String], null: false
     field :steps, [String], null: false
+    field :author, Types::UserType, null: false
 
     def ingredients
-      object.ingredients.map(&:name)
+      Loaders::AssociationLoader.for(Recipe, :ingredients).load(object).then do |ingredients|
+        ingredients.map(&:name)
+      end
     end
 
     def equipments
-      object.equipments.map(&:name)
+      Loaders::AssociationLoader.for(Recipe, :equipments).load(object).then do |equipments|
+        equipments.map(&:name)
+      end
     end
 
     def steps
-      object.steps.map(&:body)
+      Loaders::AssociationLoader.for(Recipe, :steps).load(object).then do |steps|
+        steps.map(&:body)
+      end
+    end
+
+    def author
+      Loaders::AssociationLoader.for(Recipe, :author).load(object)
     end
   end
 end

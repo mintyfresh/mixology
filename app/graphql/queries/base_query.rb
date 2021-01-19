@@ -2,7 +2,7 @@
 
 module Queries
   class BaseQuery < GraphQL::Schema::Resolver
-    include GraphQLContext
+    include Authorization
 
     argument_class Types::BaseArgument
   end

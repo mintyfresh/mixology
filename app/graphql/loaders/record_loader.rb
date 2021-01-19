@@ -5,14 +5,14 @@ module Loaders
     # @param model [Class<ActiveRecord::Base>]
     # @param column [Symbol, String]
     # @param scope [ActiveRecord::Relation, nil]
-    def self.loader_key_for(model, column: model.primary_key, scope: nil)
+    def self.loader_key_for(model, column = model.primary_key, scope: nil)
       [model, column.to_s, scope&.to_sql]
     end
 
     # @param model [Class<ActiveRecord::Base>]
     # @param column [Symbol, String]
     # @param scope [ActiveRecord::Relation, nil]
-    def initialize(model, column: model.primary_key, scope: nil)
+    def initialize(model, column = model.primary_key, scope: nil)
       super()
 
       @model       = model
