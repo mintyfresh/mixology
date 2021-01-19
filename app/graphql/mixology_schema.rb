@@ -8,6 +8,9 @@ class MixologySchema < GraphQL::Schema
   use GraphQL::Execution::Interpreter
   use GraphQL::Analysis::AST
 
+  # Load records from the database in batches
+  use GraphQL::Batch
+
   # Add built-in connections for pagination
   use GraphQL::Pagination::Connections
 end
