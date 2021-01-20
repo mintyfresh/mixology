@@ -24,4 +24,14 @@ RSpec.describe RecipePolicy, type: :policy do
       expect(policy).to permit(user, Recipe)
     end
   end
+
+  permissions :favourite? do
+    it 'does not permit guests to favourite recipes' do
+      expect(policy).not_to permit(nil, recipe)
+    end
+
+    it 'permits users to favourite recipes' do
+      expect(policy).to permit(user, recipe)
+    end
+  end
 end

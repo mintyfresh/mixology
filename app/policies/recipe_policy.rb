@@ -11,6 +11,10 @@ class RecipePolicy < ApplicationPolicy
     current_user.present?
   end
 
+  def favourite?
+    show? && current_user.present?
+  end
+
   class Scope < Scope
     def resolve
       scope.all

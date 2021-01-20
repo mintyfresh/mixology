@@ -16,6 +16,12 @@ module Favouriteable
   end
 
   # @param user [User]
+  # @return [Boolean]
+  def favourited_by?(user)
+    favourites.exists?(user: user)
+  end
+
+  # @param user [User]
   # @return [Favourite, nil]
   def remove_favourite(user)
     user.with_lock do
