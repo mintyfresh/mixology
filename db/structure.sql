@@ -71,6 +71,39 @@ ALTER SEQUENCE public.equipment_id_seq OWNED BY public.equipment.id;
 
 
 --
+-- Name: favourites; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.favourites (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    favouriteable_type character varying NOT NULL,
+    favouriteable_id bigint NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: favourites_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.favourites_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: favourites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.favourites_id_seq OWNED BY public.favourites.id;
+
+
+--
 -- Name: ingredients; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -284,6 +317,13 @@ ALTER TABLE ONLY public.equipment ALTER COLUMN id SET DEFAULT nextval('public.eq
 
 
 --
+-- Name: favourites id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.favourites ALTER COLUMN id SET DEFAULT nextval('public.favourites_id_seq'::regclass);
+
+
+--
 -- Name: ingredients id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -339,6 +379,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public.equipment
     ADD CONSTRAINT equipment_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: favourites favourites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.favourites
+    ADD CONSTRAINT favourites_pkey PRIMARY KEY (id);
 
 
 --
@@ -402,6 +450,27 @@ ALTER TABLE ONLY public.users
 --
 
 CREATE UNIQUE INDEX index_equipment_on_name ON public.equipment USING btree (name);
+
+
+--
+-- Name: index_favourites_on_favouriteable; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_favourites_on_favouriteable ON public.favourites USING btree (favouriteable_type, favouriteable_id);
+
+
+--
+-- Name: index_favourites_on_user_and_favouriteable; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_favourites_on_user_and_favouriteable ON public.favourites USING btree (user_id, favouriteable_type, favouriteable_id);
+
+
+--
+-- Name: index_favourites_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_favourites_on_user_id ON public.favourites USING btree (user_id);
 
 
 --
@@ -506,6 +575,14 @@ ALTER TABLE ONLY public.recipe_ingredients
 
 
 --
+-- Name: favourites fk_rails_3073f88368; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.favourites
+    ADD CONSTRAINT fk_rails_3073f88368 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: recipe_equipments fk_rails_64ca1526c3; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -542,6 +619,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210117015501'),
 ('20210117023118'),
 ('20210117023832'),
-('20210117024329');
+('20210117024329'),
+('20210120014855');
 
 

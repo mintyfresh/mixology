@@ -20,6 +20,8 @@
 #  fk_rails_...  (author_id => users.id)
 #
 class Recipe < ApplicationRecord
+  include Favouriteable
+
   NAME_MAX_LENGTH        = 100
   DESCRIPTION_MAX_LENGTH = 2500
   INGREDIENTS_MAX_LENGTH = 25
