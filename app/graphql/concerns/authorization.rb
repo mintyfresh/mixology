@@ -28,6 +28,10 @@ module Authorization
   def authorize(record, action)
     return record if permitted?(record, action)
 
-    raise Pundit::NotAuthorizedError.new(policy: policy(record), query: action, record: record)
+    raise Pundit::NotAuthorizedError.new(
+      policy: policy(record),
+      query:  action.to_s.chomp('?'),
+      record: record
+    )
   end
 end
