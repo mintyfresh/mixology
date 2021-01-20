@@ -6,10 +6,11 @@
 #
 #  id          :bigint           not null, primary key
 #  author_id   :bigint           not null
-#  name        :string           not null
+#  name        :citext           not null
 #  description :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  deleted_at  :datetime
 #
 # Indexes
 #
@@ -21,6 +22,7 @@
 #
 class Recipe < ApplicationRecord
   include Favouriteable
+  include SoftDeletable
 
   NAME_MAX_LENGTH        = 100
   DESCRIPTION_MAX_LENGTH = 2500

@@ -4,7 +4,7 @@ class RecipePolicy < ApplicationPolicy
   alias recipe record
 
   def show?
-    true
+    !recipe.deleted?
   end
 
   def create?

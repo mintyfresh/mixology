@@ -241,10 +241,11 @@ ALTER SEQUENCE public.recipe_steps_id_seq OWNED BY public.recipe_steps.id;
 CREATE TABLE public.recipes (
     id bigint NOT NULL,
     author_id bigint NOT NULL,
-    name character varying NOT NULL,
+    name public.citext NOT NULL,
     description character varying,
     created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp without time zone
 );
 
 

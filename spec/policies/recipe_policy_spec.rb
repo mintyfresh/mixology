@@ -7,11 +7,17 @@ RSpec.describe RecipePolicy, type: :policy do
 
   let(:user) { build(:user) }
   let(:recipe) { build(:recipe) }
+  let(:deleted_recipe) { build(:recipe, :deleted) }
 
   permissions :show? do
     it 'permits everyone to view recipes' do
       expect(policy).to permit(nil, recipe)
         .and permit(user, recipe)
+    end
+
+    it 'does not permit anyone to view deleted recipes' do
+      expect(policy).to not_permit(nil, deleted_recipe)
+        .and not_permit(user, deleted_recipe)
     end
   end
 
@@ -32,6 +38,11 @@ RSpec.describe RecipePolicy, type: :policy do
 
     it 'permits users to favourite recipes' do
       expect(policy).to permit(user, recipe)
+    end
+
+    it 'does not permit anyone to favourite deleted recipes' do
+      expect(policy).to not_permit(nil, deleted_recipe)
+        .and not_permit(user, deleted_recipe)
     end
   end
 end

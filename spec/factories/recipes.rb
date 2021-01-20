@@ -6,10 +6,11 @@
 #
 #  id          :bigint           not null, primary key
 #  author_id   :bigint           not null
-#  name        :string           not null
+#  name        :citext           not null
 #  description :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  deleted_at  :datetime
 #
 # Indexes
 #
@@ -25,6 +26,10 @@ FactoryBot.define do
 
     name { Faker::Food.dish }
     description { Faker::Food.description }
+
+    trait :deleted do
+      deleted { true }
+    end
 
     trait :with_ingredients do
       transient do
