@@ -15,9 +15,20 @@ class RecipePolicy < ApplicationPolicy
     show? && current_user.present?
   end
 
+  def destroy?
+    show? && author?
+  end
+
   class Scope < Scope
     def resolve
       scope.all
     end
+  end
+
+private
+
+  # @return [Boolean]
+  def author?
+    current_user.present? && current_user == recipe.author
   end
 end
