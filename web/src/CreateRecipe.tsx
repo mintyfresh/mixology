@@ -46,26 +46,31 @@ const RecipeSteps: React.FC<{ steps: string[], onChange?: (steps: string[]) => v
 
   return (
     <>
+      <h4 className="text-center">
+        Preparation Instructions
+      </h4>
       {steps.map((step, index) =>
         <Form.Group key={index}>
-          <Form.Label className="w-100">
-            Step {index + 1}
-            <a className="float-right text-danger" onClick={() => removeStep(index)}>
+          <div>
+            <Form.Label>
+              Step {index + 1}
+            </Form.Label>
+            <Button className="float-right text-danger p-0" variant="link" onClick={() => removeStep(index)}>
               Remove
-            </a>
-          </Form.Label>
+            </Button>
+          </div>
           <Form.Control
             as="textarea"
-            name={`steps[${index}]`}
+            name={`steps[${index}].body`}
             value={step}
             onChange={(event) => setStep(index, event.currentTarget.value)}
           />
         </Form.Group>
       )}
       <div className="text-center">
-        <a className="text-primary" onClick={() => addStep()}>
+        <Button className="text-primary p-0" variant="link" onClick={() => addStep()}>
           Add a Step
-        </a>
+        </Button>
       </div>
     </>
   );
