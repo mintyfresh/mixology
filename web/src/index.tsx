@@ -1,14 +1,19 @@
 import { ApolloProvider } from '@apollo/client';
 import React from 'react';
+import { Container } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import { App } from './App';
+import { AppNavbar } from './AppNavbar';
 import { client } from './graphql/client';
 import { reportWebVitals } from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <AppNavbar />
+      <Container>
+        <App />
+      </Container>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
