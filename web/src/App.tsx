@@ -1,7 +1,8 @@
 import React from 'react';
+import { CreateRecipe } from './CreateRecipe';
 
 export const App: React.FC = () => {
   return (
-    <div>App</div>
+    <CreateRecipe />
   );
 };
