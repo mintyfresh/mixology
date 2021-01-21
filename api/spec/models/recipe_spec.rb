@@ -4,13 +4,14 @@
 #
 # Table name: recipes
 #
-#  id          :bigint           not null, primary key
-#  author_id   :bigint           not null
-#  name        :citext           not null
-#  description :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  deleted_at  :datetime
+#  id               :bigint           not null, primary key
+#  author_id        :bigint           not null
+#  name             :citext           not null
+#  description      :string
+#  favourites_count :integer          default(0), not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  deleted_at       :datetime
 #
 # Indexes
 #

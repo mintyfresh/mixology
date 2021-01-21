@@ -22,6 +22,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Favourite < ApplicationRecord
-  belongs_to :user
-  belongs_to :favouriteable, polymorphic: true
+  belongs_to :user, inverse_of: :favourites
+  belongs_to :favouriteable, counter_cache: true, polymorphic: true, inverse_of: :favourites
 end

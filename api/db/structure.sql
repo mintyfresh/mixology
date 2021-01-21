@@ -243,6 +243,7 @@ CREATE TABLE public.recipes (
     author_id bigint NOT NULL,
     name public.citext NOT NULL,
     description character varying,
+    favourites_count integer DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT now() NOT NULL,
     deleted_at timestamp without time zone

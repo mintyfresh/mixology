@@ -4,13 +4,14 @@
 #
 # Table name: recipes
 #
-#  id          :bigint           not null, primary key
-#  author_id   :bigint           not null
-#  name        :citext           not null
-#  description :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  deleted_at  :datetime
+#  id               :bigint           not null, primary key
+#  author_id        :bigint           not null
+#  name             :citext           not null
+#  description      :string
+#  favourites_count :integer          default(0), not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  deleted_at       :datetime
 #
 # Indexes
 #
@@ -30,7 +31,7 @@ class Recipe < ApplicationRecord
   EQUIPMENTS_MAX_LENGTH  = 25
   STEPS_MAX_LENGTH       = 50
 
-  belongs_to :author, class_name: 'User', inverse_of: :recipes
+  belongs_to :author, class_name: 'User', inverse_of: :authored_recipes
 
   has_many :recipe_ingredients, dependent: :destroy, inverse_of: :recipe
   has_many :ingredients, through: :recipe_ingredients
