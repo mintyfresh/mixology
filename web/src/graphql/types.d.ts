@@ -53,6 +53,11 @@ export type DeleteRecipeMutationPayload = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
+export type Favouriteable = {
+  favouritesCount: Scalars['Int'];
+  isFavourite: Scalars['Boolean'];
+};
+
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -115,13 +120,15 @@ export type QueryRecipesArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export type Recipe = {
+export type Recipe = Favouriteable & {
   __typename?: 'Recipe';
   author: User;
   description: Scalars['String'];
   equipments: Array<RecipeEquipment>;
+  favouritesCount: Scalars['Int'];
   id: Scalars['ID'];
   ingredients: Array<RecipeIngredient>;
+  isFavourite: Scalars['Boolean'];
   name: Scalars['String'];
   steps: Array<RecipeStep>;
 };
@@ -130,9 +137,9 @@ export type Recipe = {
 export type RecipeConnection = {
   __typename?: 'RecipeConnection';
   /** A list of edges. */
-  edges?: Maybe<Array<Maybe<RecipeEdge>>>;
+  edges: Array<RecipeEdge>;
   /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<Recipe>>>;
+  nodes: Array<Recipe>;
   /** Information to aid in pagination. */
   pageInfo: PageInfo;
 };
@@ -143,7 +150,7 @@ export type RecipeEdge = {
   /** A cursor for use in pagination. */
   cursor: Scalars['String'];
   /** The item at the end of the edge. */
-  node?: Maybe<Recipe>;
+  node: Recipe;
 };
 
 export type RecipeEquipment = {
@@ -176,9 +183,27 @@ export type RemoveFavouriteRecipeMutationPayload = {
 
 export type User = {
   __typename?: 'User';
+  authoredRecipes: RecipeConnection;
   createdAt: Scalars['ISO8601DateTime'];
   displayName: Scalars['String'];
+  favouritedRecipes: RecipeConnection;
   id: Scalars['ID'];
+};
+
+
+export type UserAuthoredRecipesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type UserFavouritedRecipesArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 export type ValidationError = {
@@ -203,10 +228,32 @@ export type CreateRecipeMutation = (
     { __typename?: 'CreateRecipeMutationPayload' }
     & { recipe?: Maybe<(
       { __typename?: 'Recipe' }
-      & Pick<Recipe, 'id' | 'name'>
+      & Pick<Recipe, 'id' | 'name' | 'description'>
+      & { steps: Array<(
+        { __typename?: 'RecipeStep' }
+        & Pick<RecipeStep, 'id' | 'body'>
+      )> }
     )>, errors?: Maybe<Array<(
       { __typename?: 'ValidationError' }
       & Pick<ValidationError, 'attribute' | 'message'>
     )>> }
+  )> }
+);
+
+export type MyRecipesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyRecipesQuery = (
+  { __typename?: 'Query' }
+  & { currentUser?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id'>
+    & { authoredRecipes: (
+      { __typename?: 'RecipeConnection' }
+      & { nodes: Array<(
+        { __typename?: 'Recipe' }
+        & Pick<Recipe, 'id' | 'name' | 'description'>
+      )> }
+    ) }
   )> }
 );
