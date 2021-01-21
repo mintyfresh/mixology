@@ -1,0 +1,13 @@
+schema: 
+  - http://localhost:3000/graphql
+documents: src/**/!(*.d).{ts,tsx}
+generates:
+  ./src/graphql/types.d.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+    config:
+      scalars:
+        ID: string | number
+        ISO8601Date: string
+        ISO8601DateTime: string
