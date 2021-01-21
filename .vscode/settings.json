@@ -1,13 +1,14 @@
 {
-    "[json]": {
-      "editor.tabSize": 2
-    },
-    "[typescript]": {
-      "editor.tabSize": 2
-    },
-    "[typescriptreact]": {
-      "editor.tabSize": 2
+  "[json]": {
+    "editor.tabSize": 2
+  },
+  "[typescript]": {
+    "editor.tabSize": 2
+  },
+  "[typescriptreact]": {
+    "editor.tabSize": 2
   },
   "ruby.rubocop.executePath": "api/bin/",
-  "typescript.preferences.quoteStyle": "single"
+  "typescript.preferences.quoteStyle": "single",
+  "javascript.preferences.quoteStyle": "single"
 }
