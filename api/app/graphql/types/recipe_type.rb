@@ -12,6 +12,12 @@ module Types
     field :steps, [RecipeStepType], null: false
     field :author, UserType, null: false
 
+    permissions do
+      policy_permission :delete, action: :destroy?
+      policy_permission :favourite
+      policy_permission :update
+    end
+
     def ingredients
       Loaders::AssociationLoader.for(Recipe, :recipe_ingredients).load(object)
     end
