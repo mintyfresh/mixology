@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import React from 'react';
+import { Card } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { RecipeDetailQuery, RecipeDetailQueryVariables } from './graphql/types';
 
@@ -23,23 +24,31 @@ const RECIPE_DETAIL_QUERY = gql`
         id
         body
       }
+      reviews(first: 5) {
+        nodes {
+          id
+          body
+          rating
+          author {
+            id
+            displayName
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
     }
   }
 `;
 
 export const RecipeDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data, error } = useQuery<RecipeDetailQuery, RecipeDetailQueryVariables>(
+  const { data } = useQuery<RecipeDetailQuery, RecipeDetailQueryVariables>(
     RECIPE_DETAIL_QUERY,
     { variables: { id } }
   );
-
-  if (error) {
-    // TODO
-    console.log(error);
-
-    return null;
-  }
 
   if (!data) {
     return (
@@ -83,6 +92,16 @@ export const RecipeDetail: React.FC = () => {
           </li>
         )}
       </ul>
+      <hr />
+      <h2>Reviews</h2>
+      {data.recipe.reviews.nodes.map((review) =>
+        <Card key={review.id} className="mb-2">
+          <Card.Body>
+            <Card.Title>{review.author.displayName}</Card.Title>
+            <Card.Text>{review.body}</Card.Text>
+          </Card.Body>
+        </Card>
+      )}
     </>
   );
 };

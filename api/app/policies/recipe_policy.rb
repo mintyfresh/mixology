@@ -15,6 +15,10 @@ class RecipePolicy < ApplicationPolicy
     show? && current_user.present?
   end
 
+  def review?
+    show? && current_user.present?
+  end
+
   def destroy?
     show? && author?
   end
