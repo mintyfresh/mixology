@@ -43,12 +43,4 @@ class RecipeIngredient < ApplicationRecord
 
   validates :quantity_amount, numericality: { allow_nil: true, greater_than: 0 }
   validates :quantity_unit, inclusion: { in: SUPPORTED_UNITS }
-
-  # @return [Unitwise::Measurement, Float, nil]
-  def quantity
-    return if quantity_amount.blank?
-    return quantity_amount if quantity_unit.blank?
-
-    Unitwise(quantity_amount, quantity_unit)
-  end
 end
