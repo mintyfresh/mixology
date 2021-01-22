@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import { AppNavbar } from './AppNavbar';
 import { CreateRecipe } from './CreateRecipe';
 import { MyRecipes } from './MyRecipes';
+import { RecipeDetail } from './RecipeDetail';
 
 export const App: React.FC = () => {
   return (
@@ -18,7 +19,7 @@ export const App: React.FC = () => {
             <CreateRecipe />
           </Route>
           <Route path="/recipes/:id">
-            Recipe
+            <RecipeDetail />
           </Route>
         </Switch>
       </Container>

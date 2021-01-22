@@ -164,6 +164,7 @@ export type RecipeIngredient = {
   __typename?: 'RecipeIngredient';
   id: Scalars['ID'];
   name: Scalars['String'];
+  quantity?: Maybe<Scalars['String']>;
   quantityAmount?: Maybe<Scalars['Float']>;
   quantityUnit?: Maybe<Scalars['String']>;
 };
@@ -256,4 +257,27 @@ export type MyRecipesQuery = (
       )> }
     ) }
   )> }
+);
+
+export type RecipeDetailQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type RecipeDetailQuery = (
+  { __typename?: 'Query' }
+  & { recipe: (
+    { __typename?: 'Recipe' }
+    & Pick<Recipe, 'id' | 'name' | 'description'>
+    & { ingredients: Array<(
+      { __typename?: 'RecipeIngredient' }
+      & Pick<RecipeIngredient, 'id' | 'name' | 'quantity'>
+    )>, equipments: Array<(
+      { __typename?: 'RecipeEquipment' }
+      & Pick<RecipeEquipment, 'id' | 'name' | 'quantity'>
+    )>, steps: Array<(
+      { __typename?: 'RecipeStep' }
+      & Pick<RecipeStep, 'id' | 'body'>
+    )> }
+  ) }
 );
