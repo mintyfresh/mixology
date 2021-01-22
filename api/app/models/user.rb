@@ -18,6 +18,7 @@
 #
 class User < ApplicationRecord
   has_many :authored_recipes, class_name: 'Recipe', dependent: :destroy, foreign_key: :author_id, inverse_of: :author
+  has_many :authored_reviews, class_name: 'Review', dependent: :destroy, foreign_key: :author_id, inverse_of: :author
 
   has_many :favourites, dependent: :destroy, inverse_of: :user
   has_many :favourited_recipes, through: :favourites, source: :favouriteable, source_type: 'Recipe'

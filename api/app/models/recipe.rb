@@ -42,6 +42,8 @@ class Recipe < ApplicationRecord
   has_many :steps, -> { order(:position) },
            autosave: true, class_name: 'RecipeStep', dependent: :destroy, inverse_of: :recipe
 
+  has_many :reviews, dependent: :destroy, inverse_of: :recipe
+
   validates :name, presence: true, length: { maximum: NAME_MAX_LENGTH }
   validates :description, length: { maximum: DESCRIPTION_MAX_LENGTH }
 end

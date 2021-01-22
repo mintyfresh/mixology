@@ -4,7 +4,9 @@ module SoftDeletable
   extend ActiveSupport::Concern
 
   included do
-    default_scope -> { where(deleted_at: nil) }
+    scope :non_deleted, -> { where(deleted_at: nil) }
+
+    default_scope -> { non_deleted }
   end
 
   # @param value [Boolean]

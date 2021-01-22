@@ -270,6 +270,41 @@ ALTER SEQUENCE public.recipes_id_seq OWNED BY public.recipes.id;
 
 
 --
+-- Name: reviews; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reviews (
+    id bigint NOT NULL,
+    recipe_id bigint NOT NULL,
+    author_id bigint NOT NULL,
+    body character varying NOT NULL,
+    rating integer NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    deleted_at timestamp without time zone
+);
+
+
+--
+-- Name: reviews_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.reviews_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: reviews_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.reviews_id_seq OWNED BY public.reviews.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -361,6 +396,13 @@ ALTER TABLE ONLY public.recipes ALTER COLUMN id SET DEFAULT nextval('public.reci
 
 
 --
+-- Name: reviews id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reviews ALTER COLUMN id SET DEFAULT nextval('public.reviews_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -429,6 +471,14 @@ ALTER TABLE ONLY public.recipe_steps
 
 ALTER TABLE ONLY public.recipes
     ADD CONSTRAINT recipes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: reviews reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reviews
+    ADD CONSTRAINT reviews_pkey PRIMARY KEY (id);
 
 
 --
@@ -539,6 +589,27 @@ CREATE INDEX index_recipes_on_author_id ON public.recipes USING btree (author_id
 
 
 --
+-- Name: index_reviews_on_author_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reviews_on_author_id ON public.reviews USING btree (author_id);
+
+
+--
+-- Name: index_reviews_on_recipe_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reviews_on_recipe_id ON public.reviews USING btree (recipe_id);
+
+
+--
+-- Name: index_reviews_on_recipe_id_and_author_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_reviews_on_recipe_id_and_author_id ON public.reviews USING btree (recipe_id, author_id) WHERE (deleted_at IS NULL);
+
+
+--
 -- Name: index_users_on_display_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -577,6 +648,14 @@ ALTER TABLE ONLY public.recipe_ingredients
 
 
 --
+-- Name: reviews fk_rails_29e6f859c4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reviews
+    ADD CONSTRAINT fk_rails_29e6f859c4 FOREIGN KEY (author_id) REFERENCES public.users(id);
+
+
+--
 -- Name: favourites fk_rails_3073f88368; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -601,6 +680,14 @@ ALTER TABLE ONLY public.recipe_equipments
 
 
 --
+-- Name: reviews fk_rails_a47e2057ed; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reviews
+    ADD CONSTRAINT fk_rails_a47e2057ed FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
+
+
+--
 -- Name: recipe_steps fk_rails_b7d194c7f5; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -622,6 +709,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210117023118'),
 ('20210117023832'),
 ('20210117024329'),
-('20210120014855');
+('20210120014855'),
+('20210122011625');
 
 
