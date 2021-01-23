@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+RSpec.describe <%= form_class_name %>, type: :form do
+  subject(:form) { described_class.new(input) }
+
+  let(:input) { attributes_for(:<%= input_factory_name %>) }
+
+  it 'has a valid input factory' do
+    expect(form).to be_valid
+  end
+
+  describe '.perform' do
+    subject(:perform) { described_class.perform(input) }
+
+    pending('does something useful')
+  end
+end

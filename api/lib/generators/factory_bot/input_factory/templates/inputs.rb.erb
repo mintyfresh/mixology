@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+FactoryBot.define do
+  factory :<%= input_factory_name %>, class: '<%= graphql_input_class_name %>' do
+    skip_create
+
+    initialize_with do
+      <%= graphql_input_class_name %>.to_graphql
+
+      arguments = <%= graphql_input_class_name %>.arguments_class.new(attributes, context: nil, defaults_used: Set.new)
+
+      <%= graphql_input_class_name %>.new(ruby_kwargs: arguments.to_kwargs, context: nil, defaults_used: Set.new)
+    end
+
+    # TODO: Define inputs.
+
+    trait :invalid do
+      # TODO: Define invalid inputs.
+    end
+  end
+end
