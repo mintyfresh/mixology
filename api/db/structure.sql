@@ -347,6 +347,41 @@ ALTER SEQUENCE public.user_credentials_id_seq OWNED BY public.user_credentials.i
 
 
 --
+-- Name: user_sessions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_sessions (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    expires_at timestamp without time zone NOT NULL,
+    revoked_at timestamp without time zone,
+    creation_ip inet,
+    creation_user_agent character varying,
+    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: user_sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.user_sessions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: user_sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.user_sessions_id_seq OWNED BY public.user_sessions.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -443,6 +478,13 @@ ALTER TABLE ONLY public.user_credentials ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
+-- Name: user_sessions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_sessions ALTER COLUMN id SET DEFAULT nextval('public.user_sessions_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -535,6 +577,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.user_credentials
     ADD CONSTRAINT user_credentials_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_sessions user_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_sessions
+    ADD CONSTRAINT user_sessions_pkey PRIMARY KEY (id);
 
 
 --
@@ -672,6 +722,13 @@ CREATE INDEX index_user_credentials_on_user_id ON public.user_credentials USING 
 
 
 --
+-- Name: index_user_sessions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_user_sessions_on_user_id ON public.user_sessions USING btree (user_id);
+
+
+--
 -- Name: index_users_on_display_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -750,6 +807,14 @@ ALTER TABLE ONLY public.user_credentials
 
 
 --
+-- Name: user_sessions fk_rails_9fa262d742; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_sessions
+    ADD CONSTRAINT fk_rails_9fa262d742 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: reviews fk_rails_a47e2057ed; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -781,6 +846,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210117024329'),
 ('20210120014855'),
 ('20210122011625'),
-('20210123092540');
+('20210123092540'),
+('20210123093810');
 
 
