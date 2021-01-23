@@ -7,7 +7,8 @@ FactoryBot.define do
     initialize_with do
       <%= graphql_input_class_name %>.to_graphql
 
-      arguments = <%= graphql_input_class_name %>.arguments_class.new(attributes, context: nil, defaults_used: Set.new)
+      attributes = self.attributes.transform_keys { |key| key.to_s.camelize(:lower) }
+      arguments  = <%= graphql_input_class_name %>.arguments_class.new(attributes, context: nil, defaults_used: Set.new)
 
       <%= graphql_input_class_name %>.new(ruby_kwargs: arguments.to_kwargs, context: nil, defaults_used: Set.new)
     end
