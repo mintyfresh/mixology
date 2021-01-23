@@ -2,7 +2,9 @@ import { gql, useQuery } from '@apollo/client';
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { RecipeDetailQuery, RecipeDetailQueryVariables } from './graphql/types';
+import { RecipeDetailQuery, RecipeDetailQueryVariables } from '../../graphql/types';
+import { RecipeEquipments, RECIPE_EQUIPMENTS_FRAGMENT } from './RecipeEquipments';
+import { RecipeIngredients, RECIPE_INGREDIENTS_FRAGMENT } from './RecipeIngredients';
 
 const RECIPE_DETAIL_QUERY = gql`
   query RecipeDetail($id: ID!) {
@@ -10,16 +12,8 @@ const RECIPE_DETAIL_QUERY = gql`
       id
       name
       description
-      ingredients {
-        id
-        name
-        quantity
-      }
-      equipments {
-        id
-        name
-        quantity
-      }
+      ...RecipeIngredients
+      ...RecipeEquipments
       steps {
         id
         body
@@ -41,6 +35,8 @@ const RECIPE_DETAIL_QUERY = gql`
       }
     }
   }
+  ${RECIPE_INGREDIENTS_FRAGMENT}
+  ${RECIPE_EQUIPMENTS_FRAGMENT}
 `;
 
 export const RecipeDetail: React.FC = () => {
@@ -62,28 +58,8 @@ export const RecipeDetail: React.FC = () => {
       {data.recipe.description &&
         <p>{data.recipe.description}</p>
       }
-      <h2>Ingredients</h2>
-      <ul>
-        {data.recipe.ingredients.map((ingredient) =>
-          <li key={ingredient.id}>
-            {ingredient.name}
-            {ingredient.quantity &&
-              <span> - {ingredient.quantity}</span>
-            }
-          </li>
-        )}
-      </ul>
-      <h2>Equipment</h2>
-      <ul>
-        {data.recipe.equipments.map((equipment) =>
-          <li key={equipment.id}>
-            {equipment.name}
-            {equipment.quantity &&
-              <span className="text-secondary"> - &times;{equipment.quantity}</span>
-            }
-          </li>
-        )}
-      </ul>
+      <RecipeIngredients ingredients={data.recipe.ingredients} />
+      <RecipeEquipments equipments={data.recipe.equipments} />
       <h2>Preparation Instructions</h2>
       <ul>
         {data.recipe.steps.map((step) =>

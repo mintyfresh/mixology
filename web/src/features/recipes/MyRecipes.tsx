@@ -1,6 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import { Card } from 'react-bootstrap';
-import { MyRecipesQuery } from './graphql/types';
+import { MyRecipesQuery } from '../../graphql/types';
 
 const MY_RECIPES_QUERY = gql`
   query MyRecipes {

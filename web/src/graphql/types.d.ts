@@ -340,13 +340,7 @@ export type RecipeDetailQuery = (
   & { recipe: (
     { __typename?: 'Recipe' }
     & Pick<Recipe, 'id' | 'name' | 'description'>
-    & { ingredients: Array<(
-      { __typename?: 'RecipeIngredient' }
-      & Pick<RecipeIngredient, 'id' | 'name' | 'quantity'>
-    )>, equipments: Array<(
-      { __typename?: 'RecipeEquipment' }
-      & Pick<RecipeEquipment, 'id' | 'name' | 'quantity'>
-    )>, steps: Array<(
+    & { steps: Array<(
       { __typename?: 'RecipeStep' }
       & Pick<RecipeStep, 'id' | 'body'>
     )>, reviews: (
@@ -363,5 +357,23 @@ export type RecipeDetailQuery = (
         & Pick<PageInfo, 'hasNextPage' | 'endCursor'>
       ) }
     ) }
+    & RecipeIngredientsFragment
+    & RecipeEquipmentsFragment
   ) }
+);
+
+export type RecipeEquipmentsFragment = (
+  { __typename?: 'Recipe' }
+  & { equipments: Array<(
+    { __typename?: 'RecipeEquipment' }
+    & Pick<RecipeEquipment, 'id' | 'name' | 'quantity'>
+  )> }
+);
+
+export type RecipeIngredientsFragment = (
+  { __typename?: 'Recipe' }
+  & { ingredients: Array<(
+    { __typename?: 'RecipeIngredient' }
+    & Pick<RecipeIngredient, 'id' | 'name' | 'quantity'>
+  )> }
 );

@@ -1,7 +1,7 @@
 import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { CreateRecipeMutation, CreateRecipeMutationVariables } from './graphql/types';
+import { CreateRecipeMutation, CreateRecipeMutationVariables } from '../../graphql/types';
 
 const CREATE_RECIPE_MUTATION = gql`
   mutation CreateRecipe($input: CreateRecipeInput!) {
