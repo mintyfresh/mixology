@@ -346,6 +346,28 @@ export type ValidationErrorMessageArgs = {
   includeName?: Maybe<Scalars['Boolean']>;
 };
 
+export type SignInMutationVariables = Exact<{
+  input: SignInInput;
+}>;
+
+
+export type SignInMutation = (
+  { __typename?: 'Mutation' }
+  & { signIn?: Maybe<(
+    { __typename?: 'SignInMutationPayload' }
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id'>
+    )>, session?: Maybe<(
+      { __typename?: 'UserSession' }
+      & Pick<UserSession, 'token' | 'expiresAt'>
+    )>, errors?: Maybe<Array<(
+      { __typename?: 'ValidationError' }
+      & ValidationErrorFragment
+    )>> }
+  )> }
+);
+
 export type SignUpMutationVariables = Exact<{
   input: SignUpInput;
 }>;

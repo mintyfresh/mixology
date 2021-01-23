@@ -2,6 +2,7 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import { Route, Switch } from 'react-router-dom';
 import { AppNavbar } from './AppNavbar';
+import { SignIn } from './features/auth/SignIn';
 import { SignUp } from './features/auth/SignUp';
 import { CreateRecipe } from './features/recipes/CreateRecipe';
 import { MyRecipes } from './features/recipes/MyRecipes';
@@ -21,6 +22,9 @@ export const App: React.FC = () => {
           </Route>
           <Route path="/recipes/:id">
             <RecipeDetail />
+          </Route>
+          <Route path="/sign-in">
+            <SignIn />
           </Route>
           <Route path="/sign-up">
             <SignUp />

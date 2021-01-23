@@ -1,0 +1,70 @@
+import { gql, useMutation } from '@apollo/client';
+import React, { useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
+import { SignInMutation, SignInMutationVariables } from '../../graphql/types';
+import { ValidationErrorsMap, VALIDATION_ERROR_FRAGMENT } from '../../lib/validation-errors-map';
+import { FormBaseErrors } from '../errors/FormBaseErrors';
+import { FormControlErrors } from '../errors/FormControlErrors';
+
+const SIGN_IN_MUTATION = gql`
+  mutation SignIn($input: SignInInput!) {
+    signIn(input: $input) {
+      user {
+        id
+      }
+      session {
+        token
+        expiresAt
+      }
+      errors {
+        ...ValidationError
+      }
+    }
+  }
+  ${VALIDATION_ERROR_FRAGMENT}
+`;
+
+export const SignIn: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [signIn, { data, loading }] = useMutation<SignInMutation, SignInMutationVariables>(SIGN_IN_MUTATION, {
+    variables: { input: { email, password } }
+  });
+
+  const errors = ValidationErrorsMap.build(data?.signIn?.errors);
+
+  return (
+    <Form onSubmit={(event) => {
+      event.preventDefault();
+      signIn();
+    }}>
+      <Form.Group>
+        <Form.Label>Email</Form.Label>
+        <Form.Control
+          name="email"
+          type="email"
+          value={email}
+          onChange={(event) => setEmail(event.currentTarget.value)}
+          isInvalid={errors.isInvalid('email')}
+        />
+        <FormControlErrors attribute="email" errors={errors} />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          name="password"
+          type="password"
+          value={password}
+          onChange={(event) => setPassword(event.currentTarget.value)}
+          isInvalid={errors.isInvalid('password')}
+        />
+        <FormControlErrors attribute="password" errors={errors} />
+      </Form.Group>
+      <FormBaseErrors errors={errors} />
+      <Form.Group className="text-right">
+        <Button type="submit" disabled={loading}>Sign In</Button>
+      </Form.Group>
+    </Form>
+  );
+};
