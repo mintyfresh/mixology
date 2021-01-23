@@ -14,9 +14,9 @@ private
 
   # @return [Hash]
   def build_context
-    { current_user: User.last, # TODO
-      ip:           request.ip,
-      user_agent:   request.user_agent }
+    { current_session: current_session,
+      ip:              request.ip,
+      user_agent:      request.user_agent }
   end
 
   # Handle variables in form data, JSON body, or a blank value

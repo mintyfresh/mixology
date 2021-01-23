@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Mutations::SignUpMutation, type: :graphql_mutation do
   subject(:mutation) { described_class.new(object: nil, field: nil, context: context) }
 
-  let(:context) { { current_user: nil } }
+  let(:context) { build(:graphql_context, :guest) }
 
   describe '#resolve' do
     subject(:resolve) { mutation.resolve(input: input) }

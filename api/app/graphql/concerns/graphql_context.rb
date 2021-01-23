@@ -3,7 +3,12 @@
 module GraphQLContext
   # @return [User, nil]
   def current_user
-    context[:current_user]
+    current_session&.user
+  end
+
+  # @return [UserSession, nil]
+  def current_session
+    context[:current_session]
   end
 
   # @return [String]

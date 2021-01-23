@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Queries::RecipeQuery, type: :graphql_query do
   subject(:query) { described_class.new(object: nil, field: nil, context: context) }
 
-  let(:context) { { current_user: current_user } }
+  let(:context) { build(:graphql_context, current_user: current_user) }
   let(:current_user) { create(:user) }
 
   describe '#resolve' do
