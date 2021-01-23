@@ -314,6 +314,39 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: user_credentials; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_credentials (
+    id bigint NOT NULL,
+    type character varying NOT NULL,
+    user_id bigint NOT NULL,
+    data jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: user_credentials_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.user_credentials_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: user_credentials_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.user_credentials_id_seq OWNED BY public.user_credentials.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -403,6 +436,13 @@ ALTER TABLE ONLY public.reviews ALTER COLUMN id SET DEFAULT nextval('public.revi
 
 
 --
+-- Name: user_credentials id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_credentials ALTER COLUMN id SET DEFAULT nextval('public.user_credentials_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -487,6 +527,14 @@ ALTER TABLE ONLY public.reviews
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: user_credentials user_credentials_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_credentials
+    ADD CONSTRAINT user_credentials_pkey PRIMARY KEY (id);
 
 
 --
@@ -610,6 +658,20 @@ CREATE UNIQUE INDEX index_reviews_on_recipe_id_and_author_id ON public.reviews U
 
 
 --
+-- Name: index_user_credentials_on_type_and_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_user_credentials_on_type_and_user_id ON public.user_credentials USING btree (type, user_id);
+
+
+--
+-- Name: index_user_credentials_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_user_credentials_on_user_id ON public.user_credentials USING btree (user_id);
+
+
+--
 -- Name: index_users_on_display_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -680,6 +742,14 @@ ALTER TABLE ONLY public.recipe_equipments
 
 
 --
+-- Name: user_credentials fk_rails_9b162a81f6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_credentials
+    ADD CONSTRAINT fk_rails_9b162a81f6 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: reviews fk_rails_a47e2057ed; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -710,6 +780,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210117023832'),
 ('20210117024329'),
 ('20210120014855'),
-('20210122011625');
+('20210122011625'),
+('20210123092540');
 
 
