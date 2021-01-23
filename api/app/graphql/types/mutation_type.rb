@@ -3,6 +3,7 @@
 module Types
   class MutationType < Types::BaseObject
     field :sign_in, mutation: Mutations::SignInMutation
+    field :sign_up, mutation: Mutations::SignUpMutation
 
     field :create_recipe, mutation: Mutations::CreateRecipeMutation
     field :add_favourite_recipe, mutation: Mutations::AddFavouriteRecipeMutation
