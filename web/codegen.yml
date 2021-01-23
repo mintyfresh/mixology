@@ -1,5 +1,6 @@
 schema: 
   - http://localhost:3000/graphql
+  - src/graphql/client-schema.graphql
 documents: src/**/!(*.d).{ts,tsx}
 generates:
   ./src/graphql/types.d.ts:

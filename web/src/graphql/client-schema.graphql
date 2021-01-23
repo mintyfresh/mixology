@@ -1,0 +1,17 @@
+type CurrentSession {
+    token: String!
+    expiresAt: ISO8601DateTime!
+}
+
+input CurrentSessionInput {
+    token: String!
+    expiresAt: ISO8601DateTime!
+}
+
+extend type Query {
+    currentSession: CurrentSession
+}
+
+extend type Mutation {
+    setCurrentSession(currentSession: CurrentSessionInput): Boolean
+}

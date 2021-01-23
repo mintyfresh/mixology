@@ -82,6 +82,7 @@ export type Mutation = {
   createReview?: Maybe<CreateReviewMutationPayload>;
   deleteRecipe?: Maybe<DeleteRecipeMutationPayload>;
   removeFavouriteRecipe?: Maybe<RemoveFavouriteRecipeMutationPayload>;
+  setCurrentSession?: Maybe<Scalars['Boolean']>;
   signIn?: Maybe<SignInMutationPayload>;
   signOut?: Maybe<SignOutMutationPayload>;
   signUp?: Maybe<SignUpMutationPayload>;
@@ -114,6 +115,11 @@ export type MutationRemoveFavouriteRecipeArgs = {
 };
 
 
+export type MutationSetCurrentSessionArgs = {
+  currentSession?: Maybe<CurrentSessionInput>;
+};
+
+
 export type MutationSignInArgs = {
   input: SignInInput;
 };
@@ -138,6 +144,7 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  currentSession?: Maybe<CurrentSession>;
   currentUser?: Maybe<User>;
   recipe: Recipe;
   recipes: RecipeConnection;
@@ -346,6 +353,17 @@ export type ValidationErrorMessageArgs = {
   includeName?: Maybe<Scalars['Boolean']>;
 };
 
+export type CurrentSession = {
+  __typename?: 'CurrentSession';
+  token: Scalars['String'];
+  expiresAt: Scalars['ISO8601DateTime'];
+};
+
+export type CurrentSessionInput = {
+  token: Scalars['String'];
+  expiresAt: Scalars['ISO8601DateTime'];
+};
+
 export type SignInMutationVariables = Exact<{
   input: SignInInput;
 }>;
@@ -477,6 +495,32 @@ export type RecipeIngredientsFragment = (
     { __typename?: 'RecipeIngredient' }
     & Pick<RecipeIngredient, 'id' | 'name' | 'quantity'>
   )> }
+);
+
+export type CurrentSessionFragment = (
+  { __typename?: 'UserSession' }
+  & Pick<UserSession, 'token' | 'expiresAt'>
+);
+
+export type CurrentSessionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentSessionQuery = (
+  { __typename?: 'Query' }
+  & { currentSession?: Maybe<(
+    { __typename?: 'CurrentSession' }
+    & Pick<CurrentSession, 'token' | 'expiresAt'>
+  )> }
+);
+
+export type SetCurrentSessionMutationVariables = Exact<{
+  currentSession?: Maybe<CurrentSessionInput>;
+}>;
+
+
+export type SetCurrentSessionMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'setCurrentSession'>
 );
 
 export type ValidationErrorFragment = (
