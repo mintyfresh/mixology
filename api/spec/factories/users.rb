@@ -21,5 +21,15 @@ FactoryBot.define do
     email
     display_name
     date_of_birth { Faker::Date.between(from: 80.years.ago, to: 20.years.ago) }
+
+    trait :with_password do
+      transient do
+        password { Faker::Internet.password }
+      end
+
+      after(:build) do |user, e|
+        user.credentials << build(:user_password_credential, user: user, password: e.password)
+      end
+    end
   end
 end
