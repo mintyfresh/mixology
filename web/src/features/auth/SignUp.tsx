@@ -38,10 +38,9 @@ export const SignUp: React.FC = () => {
 
   const [signUp, { data, loading }] = useMutation<SignUpMutation, SignUpMutationVariables>(SIGN_UP_MUTATION, {
     variables: { input: { email, displayName, password, passwordConfirmation, dateOfBirth } },
-    onCompleted: (data) => {
-      if (data.signUp?.session) {
-        setCurrentSession(data.signUp.session);
-
+    onCompleted: ({ signUp }) => {
+      if (signUp?.session) {
+        setCurrentSession(signUp.session);
         history.push('/');
       }
     }

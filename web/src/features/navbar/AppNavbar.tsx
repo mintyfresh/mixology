@@ -1,8 +1,36 @@
+import { gql, useMutation } from '@apollo/client';
 import React from 'react';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useHistory } from 'react-router-dom';
+import { SignOutMutation } from '../../graphql/types';
+import { useCurrentSession } from '../../lib/current-session';
 import { useCurrentUser } from '../../lib/current-user';
 
+const SIGN_OUT_MUTATION = gql`
+  mutation SignOut {
+    signOut {
+      success
+    }
+  }
+`;
+
+const SignOutButton = () => {
+  const history = useHistory();
+  const { setCurrentSession } = useCurrentSession();
+  const [signOut, { loading }] = useMutation<SignOutMutation>(SIGN_OUT_MUTATION, {
+    onCompleted: ({ signOut }) => {
+      if (signOut?.success) {
+        setCurrentSession(null);
+        history.push('/');
+      }
+    }
+  });
+
+  return (
+    <Button variant="outline-secondary" disabled={loading} onClick={() => signOut()}>Sign Out</Button>
+  );
+};
 
 const UserControls = () => {
   const { currentUser, loading } = useCurrentUser();
@@ -14,7 +42,7 @@ const UserControls = () => {
   if (currentUser) {
     return (
       <>
-        <Button variant="outline-secondary">Sign Out</Button>
+        <SignOutButton />
       </>
     );
   } else {

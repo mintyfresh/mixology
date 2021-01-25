@@ -408,6 +408,17 @@ export type SignUpMutation = (
   )> }
 );
 
+export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SignOutMutation = (
+  { __typename?: 'Mutation' }
+  & { signOut?: Maybe<(
+    { __typename?: 'SignOutMutationPayload' }
+    & Pick<SignOutMutationPayload, 'success'>
+  )> }
+);
+
 export type CreateRecipeMutationVariables = Exact<{
   input: CreateRecipeInput;
 }>;
