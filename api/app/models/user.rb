@@ -26,6 +26,9 @@ class User < ApplicationRecord
   has_many :favourites, dependent: :destroy, inverse_of: :user
   has_many :favourited_recipes, through: :favourites, source: :favouriteable, source_type: 'Recipe'
 
+  has_unique_attribute :email
+  has_unique_attribute :display_name
+
   validates :email, email: true
   validates :display_name, display_name: true
   validates :date_of_birth, presence: true
