@@ -1,7 +1,9 @@
 import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import { SignUpMutation, SignUpMutationVariables } from '../../graphql/types';
+import { CURRENT_SESSION_FRAGMENT, useCurrentSession } from '../../lib/current-session';
 import { ValidationErrorsMap, VALIDATION_ERROR_FRAGMENT } from '../../lib/validation-errors-map';
 import { FormBaseErrors } from '../errors/FormBaseErrors';
 import { FormControlErrors } from '../errors/FormControlErrors';
@@ -13,14 +15,14 @@ const SIGN_UP_MUTATION = gql`
         id
       }
       session {
-        token
-        expiresAt
+        ...CurrentSession
       }
       errors {
         ...ValidationError
       }
     }
   }
+  ${CURRENT_SESSION_FRAGMENT}
   ${VALIDATION_ERROR_FRAGMENT}
 `;
 
@@ -31,8 +33,18 @@ export const SignUp: React.FC = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
 
+  const history = useHistory();
+  const { setCurrentSession } = useCurrentSession();
+
   const [signUp, { data, loading }] = useMutation<SignUpMutation, SignUpMutationVariables>(SIGN_UP_MUTATION, {
-    variables: { input: { email, displayName, password, passwordConfirmation, dateOfBirth } }
+    variables: { input: { email, displayName, password, passwordConfirmation, dateOfBirth } },
+    onCompleted: (data) => {
+      if (data.signUp?.session) {
+        setCurrentSession(data.signUp.session);
+
+        history.push('/');
+      }
+    }
   });
 
   const errors = ValidationErrorsMap.build(data?.signUp?.errors);

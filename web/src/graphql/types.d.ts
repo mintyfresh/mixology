@@ -378,7 +378,7 @@ export type SignInMutation = (
       & Pick<User, 'id'>
     )>, session?: Maybe<(
       { __typename?: 'UserSession' }
-      & Pick<UserSession, 'token' | 'expiresAt'>
+      & CurrentSessionFragment
     )>, errors?: Maybe<Array<(
       { __typename?: 'ValidationError' }
       & ValidationErrorFragment
@@ -400,7 +400,7 @@ export type SignUpMutation = (
       & Pick<User, 'id'>
     )>, session?: Maybe<(
       { __typename?: 'UserSession' }
-      & Pick<UserSession, 'token' | 'expiresAt'>
+      & CurrentSessionFragment
     )>, errors?: Maybe<Array<(
       { __typename?: 'ValidationError' }
       & ValidationErrorFragment
@@ -521,6 +521,17 @@ export type SetCurrentSessionMutationVariables = Exact<{
 export type SetCurrentSessionMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'setCurrentSession'>
+);
+
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentUserQuery = (
+  { __typename?: 'Query' }
+  & { currentUser?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'displayName'>
+  )> }
 );
 
 export type ValidationErrorFragment = (
