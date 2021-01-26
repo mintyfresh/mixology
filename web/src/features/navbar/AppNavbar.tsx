@@ -28,7 +28,7 @@ const SignOutButton = () => {
   });
 
   return (
-    <Button variant="outline-secondary" disabled={loading} onClick={() => signOut()}>Sign Out</Button>
+    <Button variant="outline-danger" disabled={loading} onClick={() => signOut()}>Sign Out</Button>
   );
 };
 

@@ -10,10 +10,17 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
+  const extra: { [key: string]: string } = {};
+  const token = getCurrentSessionToken();
+
+  if (token) {
+    extra['Authorization'] = `Session ${token}`;
+  }
+
   return {
     headers: {
       ...headers,
-      Authorization: `Session ${getCurrentSessionToken()}`
+      ...extra
     }
   };
 });
