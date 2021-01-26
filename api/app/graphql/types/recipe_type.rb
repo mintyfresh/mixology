@@ -13,6 +13,7 @@ module Types
     field :steps, [RecipeStepType], null: false
 
     field :reviews, Types::ReviewType.connection_type, null: false
+    field :average_rating, Float, null: true
 
     permissions do
       policy_permission :delete, action: :destroy?
