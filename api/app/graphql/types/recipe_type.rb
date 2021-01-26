@@ -12,8 +12,13 @@ module Types
     field :equipments, [RecipeEquipmentType], null: false
     field :steps, [RecipeStepType], null: false
 
+    field :image_url, String, null: true do
+      argument :use_placeholder, Boolean, required: false, default_value: false
+    end
+
     field :reviews, Types::ReviewType.connection_type, null: false
-    field :average_rating, Float, null: true
+    field :reviews_count, Integer, null: false
+    field :average_rating, Float, null: false
 
     permissions do
       policy_permission :delete, action: :destroy?
@@ -36,6 +41,10 @@ module Types
 
     def steps
       Loaders::AssociationLoader.for(Recipe, :steps).load(object)
+    end
+
+    def image_url(**)
+      Faker::Placeholdit.image(size: "#{[100, 200, 300].sample}x#{[100, 200, 300].sample}")
     end
 
     def reviews
