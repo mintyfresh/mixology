@@ -3,6 +3,8 @@
 module Queries
   class RecipesQuery < BaseQuery
     class SortingType < Types::BaseEnum
+      graphql_name 'RecipesSorting'
+
       value 'DEFAULT', value:       -> (scope) { scope }
       value 'LATEST', value:        -> (scope) { scope.order(created_at: :desc) }
       value 'MOST_POPULAR', value:  -> (scope) { scope.order(favourites_count: :desc) }
