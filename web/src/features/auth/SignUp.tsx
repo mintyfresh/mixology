@@ -37,7 +37,6 @@ export const SignUp: React.FC = () => {
   const { setCurrentSession } = useCurrentSession();
 
   const [signUp, { data, loading }] = useMutation<SignUpMutation, SignUpMutationVariables>(SIGN_UP_MUTATION, {
-    variables: { input: { email, displayName, password, passwordConfirmation, dateOfBirth } },
     onCompleted: ({ signUp }) => {
       if (signUp?.session) {
         setCurrentSession(signUp.session);
@@ -51,7 +50,17 @@ export const SignUp: React.FC = () => {
   return (
     <Form onSubmit={(event) => {
       event.preventDefault();
-      signUp();
+      signUp({
+        variables: {
+          input: {
+            email,
+            displayName,
+            password,
+            passwordConfirmation,
+            dateOfBirth
+          }
+        }
+      });
     }}>
       <Form.Group>
         <Form.Label>Email</Form.Label>

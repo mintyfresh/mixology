@@ -1,6 +1,6 @@
 import { gql, useMutation } from '@apollo/client';
 import React from 'react';
-import { Button, Container, Nav, Navbar } from 'react-bootstrap';
+import { Button, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { SignOutMutation } from '../../graphql/types';
@@ -28,7 +28,7 @@ const SignOutButton = () => {
   });
 
   return (
-    <Button variant="outline-danger" disabled={loading} onClick={() => signOut()}>Sign Out</Button>
+    <NavDropdown.Item className="text-danger" disabled={loading} onClick={() => signOut()}>Sign Out</NavDropdown.Item>
   );
 };
 
@@ -42,7 +42,19 @@ const UserControls = () => {
   if (currentUser) {
     return (
       <>
-        <SignOutButton />
+        <NavDropdown id="navbar-user-controls-dropdown" title={currentUser.displayName} alignRight>
+          <LinkContainer to="/my-recipes">
+            <NavDropdown.Item>My Recipes</NavDropdown.Item>
+          </LinkContainer>
+          <LinkContainer to="/profile">
+            <NavDropdown.Item>Profile</NavDropdown.Item>
+          </LinkContainer>
+          <LinkContainer to="/settings">
+            <NavDropdown.Item>Settings</NavDropdown.Item>
+          </LinkContainer>
+          <NavDropdown.Divider />
+          <SignOutButton />
+        </NavDropdown>
       </>
     );
   } else {
@@ -67,8 +79,9 @@ export const AppNavbar: React.FC = () => {
         <Navbar.Toggle aria-controls="app-navbar-collapse" />
         <Navbar.Collapse id="app-navbar-collapse">
           <Nav className="mr-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/my-recipes">My Recipes</Nav.Link>
+            <LinkContainer to="/" exact>
+              <Nav.Link>Home</Nav.Link>
+            </LinkContainer>
           </Nav>
           <Nav>
             <UserControls />
