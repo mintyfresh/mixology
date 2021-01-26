@@ -37,6 +37,8 @@ class UserSession < ApplicationRecord
     return if session.nil? || session.expired? || session.revoked?
 
     session
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 
   # @return [Boolean]
