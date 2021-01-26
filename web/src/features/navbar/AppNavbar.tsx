@@ -46,6 +46,7 @@ const UserControls = () => {
           <LinkContainer to="/my-recipes">
             <NavDropdown.Item>My Recipes</NavDropdown.Item>
           </LinkContainer>
+          <NavDropdown.Divider />
           <LinkContainer to="/profile">
             <NavDropdown.Item>Profile</NavDropdown.Item>
           </LinkContainer>

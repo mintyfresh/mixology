@@ -8,6 +8,7 @@ import { CreateRecipe } from './features/recipes/CreateRecipe';
 import { MyRecipes } from './features/recipes/MyRecipes';
 import { RecipeDetail } from './features/recipes/RecipeDetail';
 import { ChangePassword } from './features/account/ChangePassword';
+import { Welcome } from './features/welcome/Welcome';
 
 export const App: React.FC = () => {
   return (
@@ -15,6 +16,9 @@ export const App: React.FC = () => {
       <AppNavbar />
       <Container>
         <Switch>
+          <Route path="/" exact>
+            <Welcome />
+          </Route>
           <Route path="/my-recipes">
             <MyRecipes />
           </Route>
