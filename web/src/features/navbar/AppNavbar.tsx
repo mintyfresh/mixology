@@ -52,6 +52,9 @@ const UserControls = () => {
           <LinkContainer to="/settings">
             <NavDropdown.Item>Settings</NavDropdown.Item>
           </LinkContainer>
+          <LinkContainer to="/change-password">
+            <NavDropdown.Item>Change Password</NavDropdown.Item>
+          </LinkContainer>
           <NavDropdown.Divider />
           <SignOutButton />
         </NavDropdown>

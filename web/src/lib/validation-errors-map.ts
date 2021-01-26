@@ -4,7 +4,7 @@ import { ValidationError } from '../graphql/types';
 export const VALIDATION_ERROR_FRAGMENT = gql`
   fragment ValidationError on ValidationError {
     attribute
-    message
+    message(includeName: true)
   }
 `;
 

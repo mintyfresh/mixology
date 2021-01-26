@@ -7,6 +7,7 @@ import { SignUp } from './features/auth/SignUp';
 import { CreateRecipe } from './features/recipes/CreateRecipe';
 import { MyRecipes } from './features/recipes/MyRecipes';
 import { RecipeDetail } from './features/recipes/RecipeDetail';
+import { ChangePassword } from './features/account/ChangePassword';
 
 export const App: React.FC = () => {
   return (
@@ -16,6 +17,9 @@ export const App: React.FC = () => {
         <Switch>
           <Route path="/my-recipes">
             <MyRecipes />
+          </Route>
+          <Route path="/change-password">
+            <ChangePassword />
           </Route>
           <Route path="/recipes/new">
             <CreateRecipe />
