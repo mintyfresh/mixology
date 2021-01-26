@@ -3,14 +3,14 @@
 module Queries
   class RecipesQuery < BaseQuery
     class SortingType < Types::BaseEnum
-      value 'default', value:      -> (scope) { scope }
-      value 'latest', value:       -> (scope) { scope.order(created_at: :desc) }
-      value 'mostPopular', value:  -> (scope) { scope.order(favourites_count: :desc) }
-      value 'highestRated', value: -> (scope) { scope.order(average_rating: :desc) }
+      value 'DEFAULT', value:       -> (scope) { scope }
+      value 'LATEST', value:        -> (scope) { scope.order(created_at: :desc) }
+      value 'MOST_POPULAR', value:  -> (scope) { scope.order(favourites_count: :desc) }
+      value 'HIGHEST_RATED', value: -> (scope) { scope.order(average_rating: :desc) }
 
       # @return [Proc]
       def self.default_value
-        @default_value ||= values['default'].value
+        @default_value ||= values['DEFAULT'].value
       end
     end
 
