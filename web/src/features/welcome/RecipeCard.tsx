@@ -1,12 +1,30 @@
 import { gql } from '@apollo/client';
 import React from 'react';
 import { Card } from 'react-bootstrap';
+import { IconContext } from 'react-icons';
+import { BsStarFill } from 'react-icons/bs';
 import { RecipeCardFragment } from '../../graphql/types';
+
+const RecipeCardImage: React.FC<{ imageUrl: string }> = ({ imageUrl }) => {
+  return (
+    <div className="embed-responsive embed-responsive-1by1">
+      <Card.Img variant="top" src={imageUrl} className="embed-responsive-item" style={{ objectFit: 'scale-down' }} />
+    </div>
+  )
+};
 
 export const RECIPE_CARD_FRAGMENT = gql`
   fragment RecipeCard on Recipe {
     id
     name
+    imageUrl(usePlaceholder: true)
+    averageRating
+    reviewsCount
+
+    author {
+      id
+      displayName
+    }
   }
 `;
 
@@ -16,10 +34,19 @@ export interface RecipeCardProps {
 
 export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
   return (
-    <Card id={`recipe-card-${recipe.id}`}>
-      <Card.Body>
-        <Card.Title>{recipe.name}</Card.Title>
-      </Card.Body>
-    </Card>
+    <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
+      <Card id={`recipe-card-${recipe.id}`}>
+        <RecipeCardImage imageUrl={recipe.imageUrl || ''} />
+        <hr className="p-0 m-0" />
+        <Card.Body>
+          <Card.Title>{recipe.name}</Card.Title>
+          <Card.Subtitle className="text-muted">{recipe.author.displayName}</Card.Subtitle>
+          <div className="text-right">
+            {recipe.averageRating.toFixed(1)}&nbsp;
+            <BsStarFill fill={recipe.averageRating > 0 ? 'gold' : 'grey'} />
+          </div>
+        </Card.Body>
+      </Card>
+    </IconContext.Provider>
   )
 };

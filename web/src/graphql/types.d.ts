@@ -186,17 +186,24 @@ export type QueryRecipesArgs = {
 export type Recipe = Favouriteable & {
   __typename?: 'Recipe';
   author: User;
-  averageRating?: Maybe<Scalars['Float']>;
+  averageRating: Scalars['Float'];
   description: Scalars['String'];
   equipments: Array<RecipeEquipment>;
   favouritesCount: Scalars['Int'];
   id: Scalars['ID'];
+  imageUrl?: Maybe<Scalars['String']>;
   ingredients: Array<RecipeIngredient>;
   isFavourite: Scalars['Boolean'];
   name: Scalars['String'];
   permissions: RecipePermissions;
   reviews: ReviewConnection;
+  reviewsCount: Scalars['Int'];
   steps: Array<RecipeStep>;
+};
+
+
+export type RecipeImageUrlArgs = {
+  usePlaceholder?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -554,7 +561,11 @@ export type RecipeIngredientsFragment = (
 
 export type RecipeCardFragment = (
   { __typename?: 'Recipe' }
-  & Pick<Recipe, 'id' | 'name'>
+  & Pick<Recipe, 'id' | 'name' | 'imageUrl' | 'averageRating' | 'reviewsCount'>
+  & { author: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'displayName'>
+  ) }
 );
 
 export type RecipeShowcaseFragment = (
