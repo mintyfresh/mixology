@@ -9,6 +9,8 @@
 #  name             :citext           not null
 #  description      :string
 #  favourites_count :integer          default(0), not null
+#  average_rating   :float
+#  reviews_count    :integer          default(0), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  deleted_at       :datetime
@@ -46,4 +48,9 @@ class Recipe < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: NAME_MAX_LENGTH }
   validates :description, length: { maximum: DESCRIPTION_MAX_LENGTH }
+
+  # @return [Boolean]
+  def update_average_rating!
+    update!(average_rating: reviews.average(:rating))
+  end
 end

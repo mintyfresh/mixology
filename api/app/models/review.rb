@@ -31,10 +31,20 @@ class Review < ApplicationRecord
   BODY_MAX_LENGTH = 10_000
   RATING_RANGE    = 1..5
 
-  belongs_to :recipe, inverse_of: :reviews
+  belongs_to :recipe, counter_cache: true, inverse_of: :reviews
   belongs_to :author, class_name: 'User', inverse_of: :authored_reviews
 
-  validates :recipe, uniqueness: { scope: :author, conditions: -> { non_deleted } }
+  has_unique_attribute :recipe, index: 'index_reviews_on_recipe_id_and_author_id'
+
   validates :body, length: { minimum: BODY_MIN_LENGTH, maximum: BODY_MAX_LENGTH }
   validates :rating, inclusion: { in: RATING_RANGE }
+
+  after_save :update_recipe_average_rating, if: :saved_change_to_rating?
+
+private
+
+  # @return [void]
+  def update_recipe_average_rating
+    recipe.update_average_rating!
+  end
 end

@@ -7,6 +7,8 @@ class CreateRecipes < ActiveRecord::Migration[6.1]
       t.citext     :name, null: false
       t.string     :description
       t.integer    :favourites_count, null: false, default: 0
+      t.float      :average_rating, null: true
+      t.integer    :reviews_count, null: false, default: 0
       t.timestamps default: -> { 'NOW()' }
       t.timestamp  :deleted_at
     end

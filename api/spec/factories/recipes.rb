@@ -9,6 +9,8 @@
 #  name             :citext           not null
 #  description      :string
 #  favourites_count :integer          default(0), not null
+#  average_rating   :float
+#  reviews_count    :integer          default(0), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  deleted_at       :datetime
@@ -38,7 +40,7 @@ FactoryBot.define do
       end
 
       after(:build) do |recipe, e|
-        recipe.ingredients = build_list(:ingredient, e.ingredients_count)
+        recipe.ingredients = build_list(:ingredient, e.ingredients_count, recipe: recipe)
       end
     end
 
@@ -48,7 +50,7 @@ FactoryBot.define do
       end
 
       after(:build) do |recipe, e|
-        recipe.equipments = build_list(:equipment, e.equipments_count)
+        recipe.equipments = build_list(:equipment, e.equipments_count, recipe: recipe)
       end
     end
 
@@ -58,7 +60,17 @@ FactoryBot.define do
       end
 
       after(:build) do |recipe, e|
-        recipe.steps = build_list(:recipe_step, e.steps_count)
+        recipe.steps = build_list(:recipe_step, e.steps_count, recipe: recipe)
+      end
+    end
+
+    trait :with_reviews do
+      transient do
+        reviews_count { 3 }
+      end
+
+      after(:build) do |recipe, e|
+        recipe.reviews = build_list(:review, e.reviews_count, recipe: recipe)
       end
     end
   end

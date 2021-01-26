@@ -9,6 +9,8 @@
 #  name             :citext           not null
 #  description      :string
 #  favourites_count :integer          default(0), not null
+#  average_rating   :float
+#  reviews_count    :integer          default(0), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  deleted_at       :datetime
