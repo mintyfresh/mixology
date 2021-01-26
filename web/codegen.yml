@@ -8,6 +8,7 @@ generates:
       - typescript
       - typescript-operations
     config:
+      enumsAsTypes: true
       scalars:
         ID: string | number
         ISO8601Date: string
