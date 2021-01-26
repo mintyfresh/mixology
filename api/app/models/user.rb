@@ -37,6 +37,12 @@ class User < ApplicationRecord
   # @param credential [Object]
   # @return [self, nil]
   def authenticate(credential_class, credential)
-    credentials.find_by(type: credential_class.sti_name)&.authenticate(credential)
+    credential(credential_class)&.authenticate(credential)
+  end
+
+  # @param credential_class [Class<UserCredential>]
+  # @return [UserCredential, nil]
+  def credential(credential_class)
+    credentials.find_by(type: credential_class.sti_name)
   end
 end
