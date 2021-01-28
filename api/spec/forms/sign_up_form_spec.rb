@@ -81,8 +81,12 @@ RSpec.describe SignUpForm, type: :form do
       expect(perform.authenticate(UserPasswordCredential, input[:password])).to be_truthy
     end
 
-    it "creates an email confirmation for the user's email" do
+    it "creates an email confirmation record for the user's email" do
       expect(perform.email_confirmations.map(&:email)).to contain_exactly(input[:email])
+    end
+
+    it 'sends an email confirmation to the unconfirmed email' do
+      expect { perform }.to have_enqueued_mail(EmailConfirmationMailer, :email_confirmation)
     end
 
     context 'when the input is invalid' do
@@ -95,6 +99,10 @@ RSpec.describe SignUpForm, type: :form do
 
       it 'does not persist the user to the database' do
         expect { perform }.not_to change { User.count }
+      end
+
+      it 'does not trigger an email confirmation' do
+        expect { perform }.not_to have_enqueued_mail(EmailConfirmationMailer, :email_confirmation)
       end
     end
   end

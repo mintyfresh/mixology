@@ -15,9 +15,22 @@ class SignUpForm < ApplicationForm
 
   # @return [User]
   def perform
-    User.create!(email: email, display_name: display_name, date_of_birth: date_of_birth) do |user|
-      user.credentials << UserPasswordCredential.new(password: password)
-      user.email_confirmations << EmailConfirmation.new(email: user.email)
-    end
+    user = User.new(email: email, display_name: display_name, date_of_birth: date_of_birth)
+
+    user.credentials << UserPasswordCredential.new(password: password)
+    user.email_confirmations << EmailConfirmation.new(email: user.email)
+    user.save!
+
+    send_email_confirmation(user)
+
+    user
+  end
+
+private
+
+  # @param user [User]
+  # @return [void]
+  def send_email_confirmation(user)
+    EmailConfirmationMailer.with(email_confirmation: user.email_confirmations.last).email_confirmation.deliver_later
   end
 end
