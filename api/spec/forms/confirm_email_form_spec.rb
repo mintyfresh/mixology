@@ -32,6 +32,10 @@ RSpec.describe ConfirmEmailForm, type: :form do
 
     let(:email_confirmation) { create(:email_confirmation) }
 
+    it 'returns the email confirmation' do
+      expect(perform).to eq(email_confirmation)
+    end
+
     it 'marks the email confirmation as confirmed' do
       expect { perform }.to change { email_confirmation.confirmed? }.to(true)
     end
