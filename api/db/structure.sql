@@ -40,6 +40,40 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: email_confirmations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.email_confirmations (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    email public.citext NOT NULL,
+    expires_at timestamp without time zone NOT NULL,
+    confirmed_at timestamp without time zone,
+    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: email_confirmations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.email_confirmations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: email_confirmations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.email_confirmations_id_seq OWNED BY public.email_confirmations.id;
+
+
+--
 -- Name: equipment; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -417,6 +451,13 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- Name: email_confirmations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.email_confirmations ALTER COLUMN id SET DEFAULT nextval('public.email_confirmations_id_seq'::regclass);
+
+
+--
 -- Name: equipment id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -499,6 +540,14 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: email_confirmations email_confirmations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.email_confirmations
+    ADD CONSTRAINT email_confirmations_pkey PRIMARY KEY (id);
 
 
 --
@@ -595,6 +644,13 @@ ALTER TABLE ONLY public.user_sessions
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_email_confirmations_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_email_confirmations_on_user_id ON public.email_confirmations USING btree (user_id);
 
 
 --
@@ -785,6 +841,14 @@ ALTER TABLE ONLY public.favourites
 
 
 --
+-- Name: email_confirmations fk_rails_422b33d86c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.email_confirmations
+    ADD CONSTRAINT fk_rails_422b33d86c FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: recipe_equipments fk_rails_64ca1526c3; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -849,6 +913,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210120014855'),
 ('20210122011625'),
 ('20210123092540'),
-('20210123093810');
+('20210123093810'),
+('20210128032257');
 
 
