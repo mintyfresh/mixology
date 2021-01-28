@@ -53,7 +53,7 @@ class EmailConfirmation < ApplicationRecord
 
   # @return [Boolean]
   def expired?
-    expires_at.past?
+    expires_at.present? && expires_at.past?
   end
 
   # @return [Boolean]
