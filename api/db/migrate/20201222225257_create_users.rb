@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
 
     create_table :users do |t|
       t.citext     :email, null: false, index: { unique: true }
+      t.boolean    :email_confirmed, null: false, default: false
       t.citext     :display_name, null: false, index: { unique: true }
       t.date       :date_of_birth, null: false
       t.timestamps default: -> { 'NOW()' }

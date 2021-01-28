@@ -424,6 +424,7 @@ ALTER SEQUENCE public.user_sessions_id_seq OWNED BY public.user_sessions.id;
 CREATE TABLE public.users (
     id bigint NOT NULL,
     email public.citext NOT NULL,
+    email_confirmed boolean DEFAULT false NOT NULL,
     display_name public.citext NOT NULL,
     date_of_birth date NOT NULL,
     created_at timestamp(6) without time zone DEFAULT now() NOT NULL,

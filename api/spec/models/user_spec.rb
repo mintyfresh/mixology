@@ -4,12 +4,13 @@
 #
 # Table name: users
 #
-#  id            :bigint           not null, primary key
-#  email         :citext           not null
-#  display_name  :citext           not null
-#  date_of_birth :date             not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id              :bigint           not null, primary key
+#  email           :citext           not null
+#  email_confirmed :boolean          default(FALSE), not null
+#  display_name    :citext           not null
+#  date_of_birth   :date             not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 # Indexes
 #
