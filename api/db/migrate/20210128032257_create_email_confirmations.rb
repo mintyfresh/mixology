@@ -6,7 +6,7 @@ class CreateEmailConfirmations < ActiveRecord::Migration[6.1]
       t.belongs_to :user, null: false, foreign_key: true
       t.citext     :email, null: false
       t.timestamp  :expires_at, null: false
-      t.timestamp  :confirmed_at
+      t.timestamp  :completed_at
       t.timestamps default: -> { 'NOW()' }
     end
   end

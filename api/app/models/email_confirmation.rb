@@ -8,7 +8,7 @@
 #  user_id      :bigint           not null
 #  email        :citext           not null
 #  expires_at   :datetime         not null
-#  confirmed_at :datetime
+#  completed_at :datetime
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
@@ -38,17 +38,17 @@ class EmailConfirmation < ApplicationRecord
   end
 
   # @return [Boolean]
-  def confirm!
+  def completed!
     with_lock do
-      return true if confirmed?
+      return true if completed?
 
-      update!(confirmed_at: Time.current)
+      update!(completed_at: Time.current)
     end
   end
 
   # @return [Boolean]
-  def confirmed?
-    confirmed_at.present?
+  def completed?
+    completed_at.present?
   end
 
   # @return [Boolean]

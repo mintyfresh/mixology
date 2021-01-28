@@ -8,7 +8,7 @@
 #  user_id      :bigint           not null
 #  email        :citext           not null
 #  expires_at   :datetime         not null
-#  confirmed_at :datetime
+#  completed_at :datetime
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
@@ -30,8 +30,8 @@ FactoryBot.define do
       expires_at { 5.minutes.ago }
     end
 
-    trait :confirmed do
-      confirmed_at { 5.minutes.ago }
+    trait :completed do
+      completed_at { 5.minutes.ago }
     end
 
     trait :stale do

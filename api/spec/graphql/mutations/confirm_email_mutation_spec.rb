@@ -19,7 +19,7 @@ RSpec.describe Mutations::ConfirmEmailMutation, type: :graphql_mutation do
     end
 
     it 'marks the email confirmation as completed' do
-      expect { resolve }.to change { email_confirmation.reload.confirmed? }.to(true)
+      expect { resolve }.to change { email_confirmation.reload.completed? }.to(true)
     end
 
     it "marks the user's email as confirmed" do
@@ -34,7 +34,7 @@ RSpec.describe Mutations::ConfirmEmailMutation, type: :graphql_mutation do
       end
 
       it 'does not complete the email confirmation process' do
-        expect { resolve }.to not_change { email_confirmation.reload.confirmed? }
+        expect { resolve }.to not_change { email_confirmation.reload.completed? }
           .and not_change { user.reload.email_confirmed? }
       end
     end
@@ -47,7 +47,7 @@ RSpec.describe Mutations::ConfirmEmailMutation, type: :graphql_mutation do
       end
 
       it 'does not complete the email confirmation process' do
-        expect { resolve }.to not_change { email_confirmation.reload.confirmed? }
+        expect { resolve }.to not_change { email_confirmation.reload.completed? }
           .and not_change { user.reload.email_confirmed? }
       end
     end

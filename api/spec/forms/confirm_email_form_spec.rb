@@ -17,8 +17,8 @@ RSpec.describe ConfirmEmailForm, type: :form do
     expect(form).to be_invalid
   end
 
-  it 'is invalid when the email has already been confirmed' do
-    input[:email_confirmation] = build(:email_confirmation, :confirmed)
+  it 'is invalid when the email has already been completed' do
+    input[:email_confirmation] = build(:email_confirmation, :completed)
     expect(form).to be_invalid
   end
 
@@ -41,8 +41,8 @@ RSpec.describe ConfirmEmailForm, type: :form do
       expect(perform).to eq(email_confirmation)
     end
 
-    it 'marks the email confirmation as confirmed' do
-      expect { perform }.to change { email_confirmation.confirmed? }.to(true)
+    it 'marks the email confirmation as completed' do
+      expect { perform }.to change { email_confirmation.completed? }.to(true)
     end
 
     it 'marks the user as having their email confirmed' do

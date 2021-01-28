@@ -9,7 +9,7 @@ class ConfirmEmailForm < ApplicationForm
   # @return [EmailConfirmation]
   def perform
     transaction do
-      email_confirmation.confirm!
+      email_confirmation.completed!
       email_confirmation.user.update!(email_confirmed: true)
     end
 
@@ -20,7 +20,7 @@ private
 
   # @return [void]
   def email_confirmation_is_active
-    return errors.add(:base, :confirmed) if email_confirmation.confirmed?
+    return errors.add(:base, :completed) if email_confirmation.completed?
     return errors.add(:base, :expired)   if email_confirmation.expired?
     return errors.add(:base, :stale)     if email_confirmation.stale?
   end

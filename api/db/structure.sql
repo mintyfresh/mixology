@@ -48,7 +48,7 @@ CREATE TABLE public.email_confirmations (
     user_id bigint NOT NULL,
     email public.citext NOT NULL,
     expires_at timestamp without time zone NOT NULL,
-    confirmed_at timestamp without time zone,
+    completed_at timestamp without time zone,
     created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
 );
