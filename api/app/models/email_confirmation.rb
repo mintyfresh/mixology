@@ -66,6 +66,11 @@ class EmailConfirmation < ApplicationRecord
     @token ||= to_sgid.to_s.freeze
   end
 
+  # @return [String]
+  def web_link
+    "#{ENV['WEB_URL']}/confirm-email?token=#{token}"
+  end
+
 private
 
   # @return [void]

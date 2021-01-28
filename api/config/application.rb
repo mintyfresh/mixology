@@ -39,6 +39,8 @@ module Mixology
 
     config.active_record.index_nested_attribute_errors = true
 
+    config.action_mailer.preview_path = Rails.root.join('spec', 'mailers', 'previews')
+
     # Dump structure file in PostgreSQL native format.
     config.active_record.schema_format = :sql
 
