@@ -38,11 +38,6 @@ class EmailConfirmation < ApplicationRecord
   end
 
   # @return [Boolean]
-  def expired?
-    expires_at.past?
-  end
-
-  # @return [Boolean]
   def confirm!
     with_lock do
       return true if confirmed?
@@ -54,6 +49,11 @@ class EmailConfirmation < ApplicationRecord
   # @return [Boolean]
   def confirmed?
     confirmed_at.present?
+  end
+
+  # @return [Boolean]
+  def expired?
+    expires_at.past?
   end
 
   # @return [Boolean]

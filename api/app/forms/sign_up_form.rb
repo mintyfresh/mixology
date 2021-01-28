@@ -17,6 +17,7 @@ class SignUpForm < ApplicationForm
   def perform
     User.create!(email: email, display_name: display_name, date_of_birth: date_of_birth) do |user|
       user.credentials << UserPasswordCredential.new(password: password)
+      user.email_confirmations << EmailConfirmation.new(email: user.email)
     end
   end
 end

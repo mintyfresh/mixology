@@ -81,6 +81,10 @@ RSpec.describe SignUpForm, type: :form do
       expect(perform.authenticate(UserPasswordCredential, input[:password])).to be_truthy
     end
 
+    it "creates an email confirmation for the user's email" do
+      expect(perform.email_confirmations.map(&:email)).to contain_exactly(input[:email])
+    end
+
     context 'when the input is invalid' do
       let(:input) { build(:sign_up_input, :invalid) }
 
