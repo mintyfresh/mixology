@@ -6,6 +6,8 @@ module Types
     field :sign_up,  mutation: Mutations::SignUpMutation
     field :sign_out, mutation: Mutations::SignOutMutation
 
+    field :confirm_email, mutation: Mutations::ConfirmEmailMutation
+
     field :change_password, mutation: Mutations::ChangePasswordMutation
 
     field :create_recipe, mutation: Mutations::CreateRecipeMutation

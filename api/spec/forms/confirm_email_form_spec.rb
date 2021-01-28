@@ -12,6 +12,11 @@ RSpec.describe ConfirmEmailForm, type: :form do
     expect(form).to be_valid
   end
 
+  it 'is invalid without an email confirmation' do
+    input[:email_confirmation] = nil
+    expect(form).to be_invalid
+  end
+
   it 'is invalid when the email has already been confirmed' do
     input[:email_confirmation] = build(:email_confirmation, :confirmed)
     expect(form).to be_invalid

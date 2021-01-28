@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class ConfirmEmailForm < ApplicationForm
-  attribute :email_confirmation, Types::Instance(EmailConfirmation), optional: false
+  attribute :email_confirmation, Types::Instance(EmailConfirmation)
 
-  validate :email_confirmation_is_active
+  validates :email_confirmation, presence: { message: :not_found }
+  validate  :email_confirmation_is_active, if: -> { email_confirmation }
 
   # @return [EmailConfirmation]
   def perform
