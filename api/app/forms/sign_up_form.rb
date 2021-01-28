@@ -21,6 +21,8 @@ class SignUpForm < ApplicationForm
     user.email_confirmations << EmailConfirmation.new(email: user.email)
     user.save!
 
+    # TODO: Replace with pub/sub mechanism.
+    # Publish an event that the user has signed up and trigger the email elsewhere.
     send_email_confirmation(user)
 
     user
