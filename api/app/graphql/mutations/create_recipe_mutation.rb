@@ -9,13 +9,12 @@ module Mutations
 
     def resolve(input:)
       authorize(Recipe, :create?)
-      input = input.to_h.merge(author: current_user)
 
-      case (result = CreateRecipeForm.perform(input))
-      when Recipe
-        { recipe: result }
-      else
-        { errors: result }
+      case CreateRecipeForm.perform(**input.to_h, author: current_user)
+      in Recipe => recipe
+        { recipe: recipe }
+      in ActiveModel::Errors => errors
+        { errors: errors }
       end
     end
   end

@@ -11,11 +11,11 @@ module Mutations
       recipe = Recipe.find(id)
       authorize(recipe, :favourite?)
 
-      case (result = AddFavouriteRecipeForm.perform(user: current_user, recipe: recipe))
-      when Recipe
-        { recipe: result }
-      when ActiveModel::Errors
-        { errors: result }
+      case AddFavouriteRecipeForm.perform(user: current_user, recipe: recipe)
+      in Recipe => recipe
+        { recipe: recipe }
+      in ActiveModel::Errors => errors
+        { errors: errors }
       end
     end
   end

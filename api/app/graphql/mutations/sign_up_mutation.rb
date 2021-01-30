@@ -9,11 +9,11 @@ module Mutations
     field :errors, [Types::ValidationErrorType], null: true
 
     def resolve(input:)
-      case (result = SignUpForm.perform(input.to_h))
-      when User
-        { user: result, session: create_session!(result) }
-      when ActiveModel::Errors
-        { errors: result }
+      case SignUpForm.perform(input.to_h)
+      in User => user
+        { user: user, session: create_session!(user) }
+      in ActiveModel::Errors => errors
+        { errors: errors }
       end
     end
 

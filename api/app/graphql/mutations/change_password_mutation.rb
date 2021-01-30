@@ -10,11 +10,11 @@ module Mutations
     def resolve(input:)
       authorize(current_user, :change_password?)
 
-      case (result = ChangePasswordForm.perform(user: current_user, **input.to_h))
-      when User
+      case ChangePasswordForm.perform(user: current_user, **input.to_h)
+      in User
         { success: true }
-      when ActiveModel::Errors
-        { errors: result }
+      in ActiveModel::Errors => errors
+        { errors: errors }
       end
     end
   end

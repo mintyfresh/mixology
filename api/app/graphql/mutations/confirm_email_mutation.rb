@@ -12,11 +12,11 @@ module Mutations
     def resolve(token:)
       email_confirmation = EmailConfirmation.find_by_token(token)
 
-      case (result = ConfirmEmailForm.perform(email_confirmation: email_confirmation))
-      when EmailConfirmation
+      case ConfirmEmailForm.perform(email_confirmation: email_confirmation)
+      in EmailConfirmation
         { success: true }
-      when ActiveModel::Errors
-        { errors: result }
+      in ActiveModel::Errors => errors
+        { errors: errors }
       end
     end
   end

@@ -13,13 +13,11 @@ module Mutations
       recipe = Recipe.find(recipe_id)
       authorize(recipe, :review?)
 
-      input = input.to_h.merge(author: current_user)
-
-      case (result = CreateReviewForm.perform(input))
-      when Review
-        { recipe: result.recipe, review: result }
-      when ActiveModel::Errors
-        { errors: result }
+      case CreateReviewForm.perform(**input.to_h, author: current_user)
+      in Review => review
+        { recipe: review.recipe, review: review }
+      in ActiveModel::Errors => errors
+        { errors: errors }
       end
     end
   end
