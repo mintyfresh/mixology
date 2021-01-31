@@ -1,0 +1,9 @@
+---
+en:
+  activemodel:
+    errors:
+      models:
+        confirm_email_form:
+          attributes:
+            base:
+              not_found: The email confirmation link was not found.

@@ -5,7 +5,7 @@ class ConfirmEmailForm < ApplicationForm
 
   attribute :email_confirmation, Types::Instance(EmailConfirmation)
 
-  validates :email_confirmation, presence: { message: :not_found }
+  validate :email_confirmation_exists
 
   # @return [EmailConfirmation]
   def perform
@@ -19,5 +19,12 @@ class ConfirmEmailForm < ApplicationForm
     end
 
     CONFIRMED
+  end
+
+private
+
+  # @return [void]
+  def email_confirmation_exists
+    errors.add(:base, :not_found) if email_confirmation.nil?
   end
 end
