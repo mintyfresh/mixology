@@ -27,6 +27,10 @@ export class ValidationErrorsMap {
     return this.on('base');
   }
 
+  get empty(): boolean {
+    return Object.keys(this._errors).length === 0;
+  }
+
   isValid(attribute: string): boolean {
     return !(this._errors[attribute]);
   }
