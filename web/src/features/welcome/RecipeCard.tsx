@@ -3,6 +3,7 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import { IconContext } from 'react-icons';
 import { BsStarFill } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 import { RecipeCardFragment } from '../../graphql/types';
 
 const RecipeCardImage: React.FC<{ imageUrl: string }> = ({ imageUrl }) => {
@@ -39,7 +40,11 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
         <RecipeCardImage imageUrl={recipe.imageUrl || ''} />
         <hr className="p-0 m-0" />
         <Card.Body>
-          <Card.Title>{recipe.name}</Card.Title>
+          <Card.Title>
+            <Link to={`/recipes/${recipe.id}`}>
+              {recipe.name}
+            </Link>
+          </Card.Title>
           <Card.Subtitle className="text-muted">{recipe.author.displayName}</Card.Subtitle>
           <div className="text-right">
             {recipe.averageRating.toFixed(1)}&nbsp;
