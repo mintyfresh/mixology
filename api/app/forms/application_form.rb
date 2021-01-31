@@ -4,6 +4,7 @@ class ApplicationForm < Dry::Struct
   module Types
     include Dry.Types
 
+    Boolean        = Types::Bool
     FileUpload     = Types::Interface(:path, :content_type, :original_filename)
     StrippedString = Types::String.constructor { |value| value.to_s.strip }
   end
