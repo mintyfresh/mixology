@@ -9,9 +9,6 @@ class ApplicationForm < Dry::Struct
     StrippedString = Types::String.constructor { |value| value.to_s.strip }
   end
 
-  class Fragment < self
-  end
-
   include ActiveModel::Validations
 
   # Map incoming keys to symbols.
@@ -20,7 +17,7 @@ class ApplicationForm < Dry::Struct
   class << self
     # @param name [Symbol]
     # @param type [Object]
-    # @param required [Boolean]
+    # @param optional [Boolean]
     # @return [void]
     def attribute(name, type = Undefined, optional: true, **options, &block)
       if optional

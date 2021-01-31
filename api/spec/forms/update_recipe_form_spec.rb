@@ -3,25 +3,26 @@
 require 'rails_helper'
 require_relative './base_recipe_form'
 
-RSpec.describe CreateRecipeForm, type: :form do
-  subject(:form) { described_class.new(**input, author: author) }
+RSpec.describe UpdateRecipeForm, type: :form do
+  subject(:form) { described_class.new(**input, recipe: recipe) }
 
   let(:input) { attributes_for(:recipe_input) }
-  let(:author) { create(:user) }
+  let(:recipe) { create(:recipe) }
 
   it_behaves_like BaseRecipeForm
 
   describe '.perform' do
-    subject(:perform) { described_class.perform(**input, author: author) }
+    subject(:perform) { described_class.perform(**input, recipe: recipe) }
 
-    it 'creates a recipe owned by the author' do
-      expect(perform).to be_a(Recipe)
-        .and be_persisted
-        .and have_attributes(author: author)
+    it 'returns the updated recipe' do
+      expect(perform).to eq(recipe)
     end
 
-    it 'assigns the input attributes to the recipe' do
-      expect(perform).to have_attributes(input)
+    it 'updates the name and description of the recipe' do
+      expect(perform).to have_attributes(
+        name:        input[:name],
+        description: input[:description]
+      )
     end
 
     context 'with ingredients' do
@@ -66,8 +67,8 @@ RSpec.describe CreateRecipeForm, type: :form do
           .and be_of_kind(:name, :blank)
       end
 
-      it "doesn't persist a recipe to the database" do
-        expect { perform }.not_to change { Recipe.count }
+      it "doesn't persist changes to the database" do
+        expect { perform }.not_to change { recipe.reload.attributes }
       end
 
       it "doesn't persist any associated ingredients to the database" do

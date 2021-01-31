@@ -11,8 +11,6 @@ class Rspec
       template('form_spec.rb.erb', form_spec_file_path)
     end
 
-    hook_for :fixture_replacement, as: :input_factory
-
   private
 
     # @return [String]
