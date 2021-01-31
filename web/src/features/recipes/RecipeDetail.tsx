@@ -3,6 +3,7 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { RecipeDetailQuery, RecipeDetailQueryVariables } from '../../graphql/types';
+import { RecipeControls, RECIPE_CONTROLS_FRAGMENT } from './RecipeControls';
 import { RecipeEquipments, RECIPE_EQUIPMENTS_FRAGMENT } from './RecipeEquipments';
 import { RecipeIngredients, RECIPE_INGREDIENTS_FRAGMENT } from './RecipeIngredients';
 
@@ -12,6 +13,7 @@ const RECIPE_DETAIL_QUERY = gql`
       id
       name
       description
+      ...RecipeControls
       ...RecipeIngredients
       ...RecipeEquipments
       steps {
@@ -35,6 +37,7 @@ const RECIPE_DETAIL_QUERY = gql`
       }
     }
   }
+  ${RECIPE_CONTROLS_FRAGMENT}
   ${RECIPE_INGREDIENTS_FRAGMENT}
   ${RECIPE_EQUIPMENTS_FRAGMENT}
 `;
@@ -55,6 +58,9 @@ export const RecipeDetail: React.FC = () => {
   return (
     <>
       <h1>{data.recipe.name}</h1>
+      <div className="float-right">
+        <RecipeControls recipe={data.recipe} />
+      </div>
       {data.recipe.description &&
         <p>{data.recipe.description}</p>
       }

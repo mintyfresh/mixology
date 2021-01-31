@@ -599,6 +599,15 @@ export type MyRecipesQuery = (
   )> }
 );
 
+export type RecipeControlsFragment = (
+  { __typename?: 'Recipe' }
+  & Pick<Recipe, 'id'>
+  & { permissions: (
+    { __typename?: 'RecipePermissions' }
+    & Pick<RecipePermissions, 'canUpdate' | 'canDelete'>
+  ) }
+);
+
 export type RecipeDetailQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -626,6 +635,7 @@ export type RecipeDetailQuery = (
         & Pick<PageInfo, 'hasNextPage' | 'endCursor'>
       ) }
     ) }
+    & RecipeControlsFragment
     & RecipeIngredientsFragment
     & RecipeEquipmentsFragment
   ) }
