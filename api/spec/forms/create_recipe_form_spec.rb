@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe CreateRecipeForm, type: :form do
   subject(:form) { described_class.new(**input, author: author) }
 
-  let(:input) { attributes_for(:create_recipe_input) }
+  let(:input) { attributes_for(:recipe_input) }
   let(:author) { create(:user) }
 
   it 'has a valid input factory' do
@@ -33,14 +33,14 @@ RSpec.describe CreateRecipeForm, type: :form do
   end
 
   context 'with ingredients' do
-    let(:input) { attributes_for(:create_recipe_input, :with_ingredients) }
+    let(:input) { attributes_for(:recipe_input, :with_ingredients) }
 
     it 'has a valid input factory' do
       expect(form).to be_valid
     end
 
     it 'is invalid with too many ingredients' do
-      input[:ingredients] = build_list(:ingredient_fragment, Recipe::INGREDIENTS_MAX_LENGTH + 1)
+      input[:ingredients] = build_list(:recipe_ingredient_input, Recipe::INGREDIENTS_MAX_LENGTH + 1)
       expect(form).to be_invalid
     end
 
@@ -81,14 +81,14 @@ RSpec.describe CreateRecipeForm, type: :form do
   end
 
   context 'with equipment' do
-    let(:input) { attributes_for(:create_recipe_input, :with_equipment) }
+    let(:input) { attributes_for(:recipe_input, :with_equipment) }
 
     it 'has a valid input factory' do
       expect(form).to be_valid
     end
 
     it 'is invalid with too many equipment' do
-      input[:equipments] = build_list(:equipment_fragment, Recipe::EQUIPMENTS_MAX_LENGTH + 1)
+      input[:equipments] = build_list(:recipe_equipment_input, Recipe::EQUIPMENTS_MAX_LENGTH + 1)
       expect(form).to be_invalid
     end
 
@@ -119,7 +119,7 @@ RSpec.describe CreateRecipeForm, type: :form do
   end
 
   context 'with steps' do
-    let(:input) { attributes_for(:create_recipe_input, :with_steps) }
+    let(:input) { attributes_for(:recipe_input, :with_steps) }
 
     it 'has a valid input factory' do
       expect(form).to be_valid
@@ -145,7 +145,7 @@ RSpec.describe CreateRecipeForm, type: :form do
     end
 
     context 'with ingredients' do
-      let(:input) { attributes_for(:create_recipe_input, :with_ingredients) }
+      let(:input) { attributes_for(:recipe_input, :with_ingredients) }
 
       it 'associates the ingredients to the recipe' do
         expect(perform.ingredients.map(&:name)).to contain_exactly(*input[:ingredients].pluck(:name))
@@ -158,7 +158,7 @@ RSpec.describe CreateRecipeForm, type: :form do
     end
 
     context 'with equipments' do
-      let(:input) { attributes_for(:create_recipe_input, :with_equipment) }
+      let(:input) { attributes_for(:recipe_input, :with_equipment) }
 
       it 'associates the equipments to the recipe' do
         expect(perform.equipments.map(&:name)).to contain_exactly(*input[:equipments].pluck(:name))
@@ -171,7 +171,7 @@ RSpec.describe CreateRecipeForm, type: :form do
     end
 
     context 'with steps' do
-      let(:input) { attributes_for(:create_recipe_input, :with_steps) }
+      let(:input) { attributes_for(:recipe_input, :with_steps) }
 
       it 'adds the steps to the recipe' do
         expect(perform.steps.map(&:body)).to contain_exactly(*input[:steps])
@@ -179,7 +179,7 @@ RSpec.describe CreateRecipeForm, type: :form do
     end
 
     context 'when the input is invalid' do
-      let(:input) { attributes_for(:create_recipe_input, :invalid) }
+      let(:input) { attributes_for(:recipe_input, :invalid) }
 
       it 'returns a list of errors' do
         expect(perform).to be_a(ActiveModel::Errors)
@@ -191,12 +191,12 @@ RSpec.describe CreateRecipeForm, type: :form do
       end
 
       it "doesn't persist any associated ingredients to the database" do
-        input[:ingredients] = build_list(:ingredient_fragment, 3)
+        input[:ingredients] = build_list(:recipe_ingredient_input, 3)
         expect { perform }.not_to change { Ingredient.count }
       end
 
       it "doesn't persist any associated equipments to the database" do
-        input[:equipments] = build_list(:equipment_fragment, 3)
+        input[:equipments] = build_list(:recipe_equipment_input, 3)
         expect { perform }.not_to change { Equipment.count }
       end
     end

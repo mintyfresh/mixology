@@ -2,7 +2,7 @@
 
 module Mutations
   class CreateRecipeMutation < BaseMutation
-    argument :input, Types::CreateRecipeInputType, required: true
+    argument :input, Types::RecipeInputType, required: true
 
     field :recipe, Types::RecipeType, null: true
     field :errors, [Types::ValidationErrorType], null: true

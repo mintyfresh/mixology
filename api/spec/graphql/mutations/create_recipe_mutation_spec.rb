@@ -11,7 +11,7 @@ RSpec.describe Mutations::CreateRecipeMutation, type: :graphql_mutation do
   describe '#resolve' do
     subject(:resolve) { mutation.resolve(input: input) }
 
-    let(:input) { build(:create_recipe_input) }
+    let(:input) { build(:recipe_input) }
 
     it 'creates and returns a new recipe' do
       expect(resolve[:recipe]).to be_a(Recipe)
@@ -23,7 +23,7 @@ RSpec.describe Mutations::CreateRecipeMutation, type: :graphql_mutation do
     end
 
     context 'when the input is invalid' do
-      let(:input) { build(:create_recipe_input, :invalid) }
+      let(:input) { build(:recipe_input, :invalid) }
 
       it 'does not return a recipe' do
         expect(resolve[:recipe]).to be_nil
