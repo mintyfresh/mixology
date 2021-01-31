@@ -5,6 +5,7 @@ module Types
     implements FavouriteableType
 
     field :id, ID, null: false
+    field :slug, String, null: false
     field :author, UserType, null: false
     field :name, String, null: false
     field :description, String, null: false

@@ -49,6 +49,11 @@ class Recipe < ApplicationRecord
   validates :name, presence: true, length: { maximum: NAME_MAX_LENGTH }
   validates :description, length: { maximum: DESCRIPTION_MAX_LENGTH }
 
+  # @return [String]
+  def slug
+    "#{name.parameterize}-#{id}"
+  end
+
   # @return [Boolean]
   def update_average_rating!
     update!(average_rating: reviews.average(:rating) || 0)
