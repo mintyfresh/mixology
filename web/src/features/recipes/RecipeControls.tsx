@@ -1,8 +1,49 @@
-import { gql } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 import React from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { RecipeControlsFragment } from '../../graphql/types';
+import { useHistory } from 'react-router-dom';
+import { DeleteRecipeMutation, DeleteRecipeMutationVariables, RecipeControlsFragment } from '../../graphql/types';
+
+const DELETE_RECIPE_MUTATION = gql`
+  mutation DeleteRecipe($id: ID!) {
+    deleteRecipe(id: $id) {
+      success
+    }
+  }
+`;
+
+interface DeleteRecipeItemProps {
+  recipe: RecipeControlsFragment;
+}
+
+const DeleteRecipeItem: React.FC<DeleteRecipeItemProps> = ({ recipe }) => {
+  const history = useHistory();
+  const [deleteRecipe, { loading }] = useMutation<DeleteRecipeMutation, DeleteRecipeMutationVariables>(
+    DELETE_RECIPE_MUTATION,
+    {
+      onCompleted: ({ deleteRecipe }) => {
+        if (deleteRecipe?.success) {
+          history.push('/my-recipes');
+        }
+      }
+    }
+  );
+
+  return (
+    <Dropdown.Item
+      className="text-danger"
+      disabled={loading}
+      onClick={() => {
+        deleteRecipe({
+          variables: { id: recipe.id }
+        });
+      }}
+    >
+      Delete
+    </Dropdown.Item>
+  );
+};
 
 export const RECIPE_CONTROLS_FRAGMENT = gql`
   fragment RecipeControls on Recipe {
@@ -31,9 +72,7 @@ export const RecipeControls: React.FC<RecipeControlsProps> = ({ recipe }) => {
 
   if (recipe.permissions.canDelete) {
     actions.push(
-      <LinkContainer to={`/recipes/${recipe.id}/edit`} key="delete">
-        <Dropdown.Item className="text-danger">Delete</Dropdown.Item>
-      </LinkContainer>
+      <DeleteRecipeItem recipe={recipe} key="delete" />
     );
   }
 

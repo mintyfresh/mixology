@@ -599,6 +599,19 @@ export type MyRecipesQuery = (
   )> }
 );
 
+export type DeleteRecipeMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteRecipeMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteRecipe?: Maybe<(
+    { __typename?: 'DeleteRecipeMutationPayload' }
+    & Pick<DeleteRecipeMutationPayload, 'success'>
+  )> }
+);
+
 export type RecipeControlsFragment = (
   { __typename?: 'Recipe' }
   & Pick<Recipe, 'id'>
