@@ -48,6 +48,7 @@ export const UpdateRecipe: React.FC = () => {
   const [getRecipe, { called, data }] = useLazyQuery<RecipeForUpdateQuery, RecipeForUpdateQueryVariables>(
     RECIPE_FOR_UPDATE_QUERY,
     {
+      fetchPolicy: 'network-only',
       onCompleted: ({ recipe }) => {
         if (recipe) {
           setRecipe({
