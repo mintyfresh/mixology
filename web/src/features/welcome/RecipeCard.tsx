@@ -34,7 +34,7 @@ export interface RecipeCardProps {
 
 export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
   return (
-    <IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
+    <IconContext.Provider value={{ style: { verticalAlign: 'baseline' } }}>
       <Card id={`recipe-card-${recipe.id}`}>
         <RecipeCardImage imageUrl={recipe.imageUrl || ''} />
         <hr className="p-0 m-0" />
