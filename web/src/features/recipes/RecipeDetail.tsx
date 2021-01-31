@@ -4,6 +4,7 @@ import { Card } from 'react-bootstrap';
 import { Redirect, useParams } from 'react-router-dom';
 import { RecipeDetailQuery, RecipeDetailQueryVariables } from '../../graphql/types';
 import { extractIdFromSlug } from '../../lib/extract-id-from-slug';
+import { useCanonicalSlug } from '../../lib/use-canonical-slug';
 import { RecipeControls, RECIPE_CONTROLS_FRAGMENT } from './RecipeControls';
 import { RecipeEquipments, RECIPE_EQUIPMENTS_FRAGMENT } from './RecipeEquipments';
 import { RecipeIngredients, RECIPE_INGREDIENTS_FRAGMENT } from './RecipeIngredients';
@@ -47,6 +48,8 @@ export const RecipeDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const id = extractIdFromSlug(slug);
   const [getRecipe, { called, data }] = useLazyQuery<RecipeDetailQuery, RecipeDetailQueryVariables>(RECIPE_DETAIL_QUERY);
+
+  useCanonicalSlug(slug, data?.recipe.slug);
 
   useEffect(() => {
     if (id && !called) {

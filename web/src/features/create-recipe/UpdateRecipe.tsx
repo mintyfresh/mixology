@@ -4,6 +4,7 @@ import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { RecipeForUpdateQuery, RecipeForUpdateQueryVariables, RecipeInput, UpdateRecipeMutation, UpdateRecipeMutationVariables } from '../../graphql/types';
 import { extractIdFromSlug } from '../../lib/extract-id-from-slug';
 import { recipePath } from '../../lib/recipe';
+import { useCanonicalSlug } from '../../lib/use-canonical-slug';
 import { ValidationErrorsMap, VALIDATION_ERROR_FRAGMENT } from '../../lib/validation-errors-map';
 import { RecipeForm } from './RecipeForm';
 
@@ -72,6 +73,8 @@ export const UpdateRecipe: React.FC = () => {
       }
     }
   );
+
+  useCanonicalSlug(slug, data?.recipe.slug);
 
   useEffect(() => {
     if (id && !called) {
