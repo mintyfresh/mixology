@@ -66,7 +66,12 @@ class PasswordReset < ApplicationRecord
 
   # @return [String]
   def token
-    @token ||= to_sgid.to_s
+    @token ||= to_sgid.to_s.freeze
+  end
+
+  # @return [String]
+  def web_link
+    "#{ENV['WEB_URL']}/reset-password?token=#{token}"
   end
 
 private
