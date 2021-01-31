@@ -7,7 +7,7 @@ class ConfirmEmailForm < ApplicationForm
 
   validate :email_confirmation_exists
 
-  # @return [EmailConfirmation]
+  # @return [Symbol]
   def perform
     email_confirmation.with_lock do
       return CONFIRMED if email_confirmation.completed?
