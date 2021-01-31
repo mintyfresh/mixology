@@ -204,6 +204,7 @@ export type Recipe = Favouriteable & {
   permissions: RecipePermissions;
   reviews: ReviewConnection;
   reviewsCount: Scalars['Int'];
+  slug: Scalars['String'];
   steps: Array<RecipeStep>;
 };
 
@@ -521,7 +522,7 @@ export type CreateRecipeMutation = (
     { __typename?: 'CreateRecipeMutationPayload' }
     & { recipe?: Maybe<(
       { __typename?: 'Recipe' }
-      & Pick<Recipe, 'id' | 'name' | 'description'>
+      & Pick<Recipe, 'id' | 'name' | 'slug' | 'description'>
       & { steps: Array<(
         { __typename?: 'RecipeStep' }
         & Pick<RecipeStep, 'id' | 'body'>
@@ -542,7 +543,7 @@ export type RecipeForUpdateQuery = (
   { __typename?: 'Query' }
   & { recipe: (
     { __typename?: 'Recipe' }
-    & Pick<Recipe, 'id' | 'name' | 'description'>
+    & Pick<Recipe, 'id' | 'name' | 'slug' | 'description'>
     & { steps: Array<(
       { __typename?: 'RecipeStep' }
       & Pick<RecipeStep, 'body'>
@@ -562,7 +563,7 @@ export type UpdateRecipeMutation = (
     { __typename?: 'UpdateRecipeMutationPayload' }
     & { recipe?: Maybe<(
       { __typename?: 'Recipe' }
-      & Pick<Recipe, 'id'>
+      & Pick<Recipe, 'id' | 'slug'>
     )>, errors?: Maybe<Array<(
       { __typename?: 'ValidationError' }
       & ValidationErrorFragment
@@ -593,7 +594,7 @@ export type MyRecipesQuery = (
       { __typename?: 'RecipeConnection' }
       & { nodes: Array<(
         { __typename?: 'Recipe' }
-        & Pick<Recipe, 'id' | 'name' | 'description'>
+        & Pick<Recipe, 'id' | 'name' | 'slug' | 'description'>
       )> }
     ) }
   )> }
@@ -614,7 +615,7 @@ export type DeleteRecipeMutation = (
 
 export type RecipeControlsFragment = (
   { __typename?: 'Recipe' }
-  & Pick<Recipe, 'id'>
+  & Pick<Recipe, 'id' | 'slug'>
   & { permissions: (
     { __typename?: 'RecipePermissions' }
     & Pick<RecipePermissions, 'canUpdate' | 'canDelete'>
@@ -672,7 +673,7 @@ export type RecipeIngredientsFragment = (
 
 export type RecipeCardFragment = (
   { __typename?: 'Recipe' }
-  & Pick<Recipe, 'id' | 'name' | 'imageUrl' | 'averageRating' | 'reviewsCount'>
+  & Pick<Recipe, 'id' | 'name' | 'slug' | 'imageUrl' | 'averageRating' | 'reviewsCount'>
   & { author: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'displayName'>

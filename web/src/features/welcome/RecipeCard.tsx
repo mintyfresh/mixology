@@ -5,6 +5,7 @@ import { IconContext } from 'react-icons';
 import { BsStarFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { RecipeCardFragment } from '../../graphql/types';
+import { recipePath } from '../../lib/recipe';
 
 const RecipeCardImage: React.FC<{ imageUrl: string }> = ({ imageUrl }) => {
   return (
@@ -18,6 +19,7 @@ export const RECIPE_CARD_FRAGMENT = gql`
   fragment RecipeCard on Recipe {
     id
     name
+    slug
     imageUrl(usePlaceholder: true)
     averageRating
     reviewsCount
@@ -41,7 +43,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
         <hr className="p-0 m-0" />
         <Card.Body>
           <Card.Title>
-            <Link to={`/recipes/${recipe.id}`}>
+            <Link to={recipePath(recipe)}>
               {recipe.name}
             </Link>
           </Card.Title>

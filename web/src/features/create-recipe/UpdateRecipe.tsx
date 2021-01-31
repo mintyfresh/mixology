@@ -1,7 +1,9 @@
-import { gql, useMutation, useQuery } from '@apollo/client';
-import React, { useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { gql, useLazyQuery, useMutation } from '@apollo/client';
+import React, { useEffect, useState } from 'react';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { RecipeForUpdateQuery, RecipeForUpdateQueryVariables, RecipeInput, UpdateRecipeMutation, UpdateRecipeMutationVariables } from '../../graphql/types';
+import { extractIdFromSlug } from '../../lib/extract-id-from-slug';
+import { recipePath } from '../../lib/recipe';
 import { ValidationErrorsMap, VALIDATION_ERROR_FRAGMENT } from '../../lib/validation-errors-map';
 import { RecipeForm } from './RecipeForm';
 
@@ -10,6 +12,7 @@ const RECIPE_FOR_UPDATE_QUERY = gql`
     recipe(id: $id) {
       id
       name
+      slug
       description
       steps {
         body
@@ -23,6 +26,7 @@ const UPDATE_RECIPE_MUTATION = gql`
     updateRecipe(id: $id, input: $input) {
       recipe {
         id
+        slug
       }
       errors {
         ...ValidationError
@@ -39,28 +43,49 @@ export const UpdateRecipe: React.FC = () => {
     steps: ['']
   });
 
-  const { id } = useParams<{ id: string }>();
-  const { data } = useQuery<RecipeForUpdateQuery, RecipeForUpdateQueryVariables>(RECIPE_FOR_UPDATE_QUERY, {
-    variables: { id },
-    onCompleted: ({ recipe }) => {
-      if (recipe) {
-        setRecipe({
-          name: recipe.name,
-          description: recipe.description,
-          steps: recipe.steps.map(({ body }) => body)
-        });
+  const { slug } = useParams<{ slug: string }>();
+  const id = extractIdFromSlug(slug);
+  const [getRecipe, { called, data }] = useLazyQuery<RecipeForUpdateQuery, RecipeForUpdateQueryVariables>(
+    RECIPE_FOR_UPDATE_QUERY,
+    {
+      onCompleted: ({ recipe }) => {
+        if (recipe) {
+          setRecipe({
+            name: recipe.name,
+            description: recipe.description,
+            steps: recipe.steps.map(({ body }) => body)
+          });
+        }
       }
     }
-  });
+  );
 
   const history = useHistory();
-  const [updateRecipe, mutation] = useMutation<UpdateRecipeMutation, UpdateRecipeMutationVariables>(UPDATE_RECIPE_MUTATION, {
-    onCompleted: ({ updateRecipe }) => {
-      if (updateRecipe?.recipe?.id) {
-        history.push(`/recipes/${updateRecipe.recipe.id}`);
+  const [updateRecipe, mutation] = useMutation<UpdateRecipeMutation, UpdateRecipeMutationVariables>(
+    UPDATE_RECIPE_MUTATION,
+    {
+      onCompleted: ({ updateRecipe }) => {
+        if (updateRecipe?.recipe?.slug) {
+          history.push(recipePath(updateRecipe.recipe));
+        }
       }
     }
-  });
+  );
+
+  useEffect(() => {
+    if (id && !called) {
+      getRecipe({
+        variables: { id }
+      });
+    }
+  }, [id, called, getRecipe]);
+
+  if (!id) {
+    return (
+      // TODO: Add not-found page.
+      <Redirect to="/" />
+    );
+  }
 
   if (!data?.recipe) {
     return null;
@@ -73,7 +98,7 @@ export const UpdateRecipe: React.FC = () => {
       recipe={recipe}
       onRecipeChange={setRecipe}
       onCancel={() => {
-        history.push(`/recipes/${id}`);
+        history.push(recipePath(data.recipe));
       }}
       submitted={mutation.loading}
       onSubmit={(recipe) => {

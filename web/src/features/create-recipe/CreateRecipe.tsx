@@ -2,6 +2,7 @@ import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { CreateRecipeMutation, CreateRecipeMutationVariables, RecipeInput } from '../../graphql/types';
+import { recipePath } from '../../lib/recipe';
 import { ValidationErrorsMap } from '../../lib/validation-errors-map';
 import { RecipeForm } from './RecipeForm';
 
@@ -11,6 +12,7 @@ const CREATE_RECIPE_MUTATION = gql`
       recipe {
         id
         name
+        slug
         description
         steps {
           id
@@ -38,7 +40,7 @@ export const CreateRecipe: React.FC = () => {
     {
       onCompleted: ({ createRecipe }) => {
         if (createRecipe?.recipe) {
-          history.push(`/recipes/${createRecipe.recipe.id}`);
+          history.push(recipePath(createRecipe.recipe));
         }
       }
     }

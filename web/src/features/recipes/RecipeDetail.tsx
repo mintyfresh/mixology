@@ -1,8 +1,9 @@
-import { gql, useQuery } from '@apollo/client';
-import React from 'react';
+import { gql, useLazyQuery } from '@apollo/client';
+import React, { useEffect } from 'react';
 import { Card } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import { RecipeDetailQuery, RecipeDetailQueryVariables } from '../../graphql/types';
+import { extractIdFromSlug } from '../../lib/extract-id-from-slug';
 import { RecipeControls, RECIPE_CONTROLS_FRAGMENT } from './RecipeControls';
 import { RecipeEquipments, RECIPE_EQUIPMENTS_FRAGMENT } from './RecipeEquipments';
 import { RecipeIngredients, RECIPE_INGREDIENTS_FRAGMENT } from './RecipeIngredients';
@@ -43,11 +44,24 @@ const RECIPE_DETAIL_QUERY = gql`
 `;
 
 export const RecipeDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const { data } = useQuery<RecipeDetailQuery, RecipeDetailQueryVariables>(
-    RECIPE_DETAIL_QUERY,
-    { variables: { id } }
-  );
+  const { slug } = useParams<{ slug: string }>();
+  const id = extractIdFromSlug(slug);
+  const [getRecipe, { called, data }] = useLazyQuery<RecipeDetailQuery, RecipeDetailQueryVariables>(RECIPE_DETAIL_QUERY);
+
+  useEffect(() => {
+    if (id && !called) {
+      getRecipe({
+        variables: { id }
+      });
+    }
+  }, [id, called, getRecipe]);
+
+  if (!id) {
+    return (
+      // TODO: Add not-found page.
+      <Redirect to="/" />
+    );
+  }
 
   if (!data) {
     return (

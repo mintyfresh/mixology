@@ -2,6 +2,7 @@ import { gql, useQuery } from '@apollo/client';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { MyRecipesQuery } from '../../graphql/types';
+import { recipePath } from '../../lib/recipe';
 
 const MY_RECIPES_QUERY = gql`
   query MyRecipes {
@@ -11,6 +12,7 @@ const MY_RECIPES_QUERY = gql`
         nodes {
           id
           name
+          slug
           description
         }
       }
@@ -31,7 +33,7 @@ export const MyRecipes: React.FC = () => {
         <Card key={recipe.id} className="mb-2">
           <Card.Body>
             <Card.Title>
-              <Link to={`/recipes/${recipe.id}`}>
+              <Link to={recipePath(recipe)}>
                 {recipe.name}
               </Link>
             </Card.Title>

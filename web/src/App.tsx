@@ -33,10 +33,10 @@ export const App: React.FC = () => {
           <Route path="/recipes/new">
             <CreateRecipe />
           </Route>
-          <Route path="/recipes/:id" exact>
+          <Route path="/recipes/:slug" exact>
             <RecipeDetail />
           </Route>
-          <Route path="/recipes/:id/edit">
+          <Route path="/recipes/:slug/edit">
             <UpdateRecipe />
           </Route>
           <Route path="/sign-in">

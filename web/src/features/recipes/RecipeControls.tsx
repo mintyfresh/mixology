@@ -4,6 +4,7 @@ import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { DeleteRecipeMutation, DeleteRecipeMutationVariables, RecipeControlsFragment } from '../../graphql/types';
+import { editRecipePath } from '../../lib/recipe';
 
 const DELETE_RECIPE_MUTATION = gql`
   mutation DeleteRecipe($id: ID!) {
@@ -48,6 +49,7 @@ const DeleteRecipeItem: React.FC<DeleteRecipeItemProps> = ({ recipe }) => {
 export const RECIPE_CONTROLS_FRAGMENT = gql`
   fragment RecipeControls on Recipe {
     id
+    slug
     permissions {
       canUpdate
       canDelete
@@ -64,7 +66,7 @@ export const RecipeControls: React.FC<RecipeControlsProps> = ({ recipe }) => {
 
   if (recipe.permissions.canUpdate) {
     actions.push(
-      <LinkContainer to={`/recipes/${recipe.id}/edit`} key="edit">
+      <LinkContainer to={editRecipePath(recipe)} key="edit">
         <Dropdown.Item>Edit</Dropdown.Item>
       </LinkContainer>
     );
