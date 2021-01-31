@@ -57,10 +57,10 @@ export const RecipeDetail: React.FC = () => {
 
   return (
     <>
-      <h1>{data.recipe.name}</h1>
       <div className="float-right">
         <RecipeControls recipe={data.recipe} />
       </div>
+      <h1>{data.recipe.name}</h1>
       {data.recipe.description &&
         <p>{data.recipe.description}</p>
       }

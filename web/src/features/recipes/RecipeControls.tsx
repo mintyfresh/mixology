@@ -81,7 +81,7 @@ export const RecipeControls: React.FC<RecipeControlsProps> = ({ recipe }) => {
   }
 
   return (
-    <DropdownButton id={`recipes-${recipe.id}-controls`} title="Controls" alignRight>
+    <DropdownButton id={`recipes-${recipe.id}-controls`} title="Controls" variant="outline-secondary" alignRight>
       {actions}
     </DropdownButton>
   )
