@@ -67,6 +67,7 @@ export const SignUp: React.FC = () => {
         <Form.Control
           name="email"
           type="email"
+          autoComplete="username email"
           value={email}
           onChange={(event) => setEmail(event.currentTarget.value)}
           isInvalid={errors.isInvalid('email')}
@@ -78,6 +79,7 @@ export const SignUp: React.FC = () => {
         <Form.Control
           name="displayName"
           type="text"
+          autoComplete="nickname"
           value={displayName}
           onChange={(event) => setDisplayName(event.currentTarget.value)}
           isInvalid={errors.isInvalid('displayName')}
@@ -89,6 +91,7 @@ export const SignUp: React.FC = () => {
         <Form.Control
           name="password"
           type="password"
+          autoComplete="new-password"
           value={password}
           onChange={(event) => setPassword(event.currentTarget.value)}
           isInvalid={errors.isInvalid('password')}
@@ -100,6 +103,7 @@ export const SignUp: React.FC = () => {
         <Form.Control
           name="passwordConfirmation"
           type="password"
+          autoComplete="new-password"
           value={passwordConfirmation}
           onChange={(event) => setPasswordConfirmation(event.currentTarget.value)}
           isInvalid={errors.isInvalid('passwordConfirmation')}
@@ -111,6 +115,7 @@ export const SignUp: React.FC = () => {
         <Form.Control
           name="dateOfBirth"
           type="date"
+          autoComplete="bday"
           value={dateOfBirth}
           onChange={(event) => setDateOfBirth(event.currentTarget.value)}
           isInvalid={errors.isInvalid('dateOfBirth')}

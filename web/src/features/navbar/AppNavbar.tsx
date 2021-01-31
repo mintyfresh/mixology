@@ -33,7 +33,7 @@ const UserControls = () => {
 
 export const AppNavbar: React.FC = () => {
   return (
-    <Navbar bg="dark" variant="dark" expand="md">
+    <Navbar bg="dark" variant="dark" expand="md" className="mb-3">
       <Container>
         <Navbar.Brand href="/">Mix</Navbar.Brand>
         <Navbar.Toggle aria-controls="app-navbar-collapse" />

@@ -61,6 +61,7 @@ export const SignIn: React.FC = () => {
         <Form.Control
           name="email"
           type="email"
+          autoComplete="username email"
           value={email}
           onChange={(event) => setEmail(event.currentTarget.value)}
           isInvalid={errors.isInvalid('email')}
@@ -72,6 +73,7 @@ export const SignIn: React.FC = () => {
         <Form.Control
           name="password"
           type="password"
+          autoComplete="current-password"
           value={password}
           onChange={(event) => setPassword(event.currentTarget.value)}
           isInvalid={errors.isInvalid('password')}

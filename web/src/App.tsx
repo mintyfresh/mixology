@@ -11,6 +11,8 @@ import { ChangePassword } from './features/account/ChangePassword';
 import { Welcome } from './features/welcome/Welcome';
 import { ConfirmEmail } from './features/confirm-email/ConfirmEmail';
 import { UpdateRecipe } from './features/create-recipe/UpdateRecipe';
+import { ForgotPassword } from './features/auth/ForgotPassword';
+import { ResetPassword } from './features/auth/ResetPassword';
 
 export const App: React.FC = () => {
   return (
@@ -44,6 +46,12 @@ export const App: React.FC = () => {
           </Route>
           <Route path="/sign-up">
             <SignUp />
+          </Route>
+          <Route path="/forgot-password">
+            <ForgotPassword />
+          </Route>
+          <Route path="/reset-password">
+            <ResetPassword />
           </Route>
         </Switch>
       </Container>
