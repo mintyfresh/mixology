@@ -46,6 +46,25 @@ RSpec.describe RecipePolicy, type: :policy do
     end
   end
 
+  permissions :report? do
+    it 'does not permit guests to report recipes' do
+      expect(policy).not_to permit(nil, recipe)
+    end
+
+    it 'permits users to report recipes' do
+      expect(policy).to permit(user, recipe)
+    end
+
+    it 'does not permit authors to report their own recipes' do
+      expect(policy).not_to permit(recipe.author, recipe)
+    end
+
+    it 'does not permit anyone to report deleted recipes' do
+      expect(policy).to not_permit(nil, deleted_recipe)
+        .and not_permit(user, deleted_recipe)
+    end
+  end
+
   permissions :update?, :destroy? do
     it 'does not permit guests to modify recipes' do
       expect(policy).not_to permit(nil, recipe)

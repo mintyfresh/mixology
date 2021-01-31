@@ -31,5 +31,9 @@ FactoryBot.define do
 
     body { Faker::Hipster.paragraph }
     rating { rand(1..5) }
+
+    trait :deleted do
+      deleted { true }
+    end
   end
 end
