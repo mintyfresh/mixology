@@ -14,8 +14,8 @@ RSpec.describe Mutations::ConfirmEmailMutation, type: :graphql_mutation do
     let(:user) { email_confirmation.user }
     let(:email_confirmation) { create(:email_confirmation) }
 
-    it 'returns success' do
-      expect(resolve[:success]).to be(true)
+    it 'returns confirmed' do
+      expect(resolve[:result]).to be(ConfirmEmailResult::CONFIRMED)
     end
 
     it 'marks the email confirmation as completed' do
@@ -39,11 +39,24 @@ RSpec.describe Mutations::ConfirmEmailMutation, type: :graphql_mutation do
       end
     end
 
-    context 'when the email confirmation is not active' do
+    context 'when the email confirmation is expired' do
       let(:email_confirmation) { create(:email_confirmation, :expired) }
 
-      it 'returns a list of errors' do
-        expect(resolve[:errors]).to be_present
+      it 'returns expired' do
+        expect(resolve[:result]).to be(ConfirmEmailResult::EXPIRED)
+      end
+
+      it 'does not complete the email confirmation process' do
+        expect { resolve }.to not_change { email_confirmation.reload.completed? }
+          .and not_change { user.reload.email_confirmed? }
+      end
+    end
+
+    context 'when the email confirmation is stale' do
+      let(:email_confirmation) { create(:email_confirmation, :stale) }
+
+      it 'returns stale' do
+        expect(resolve[:result]).to be(ConfirmEmailResult::STALE)
       end
 
       it 'does not complete the email confirmation process' do
