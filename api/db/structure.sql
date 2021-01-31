@@ -169,6 +169,41 @@ ALTER SEQUENCE public.ingredients_id_seq OWNED BY public.ingredients.id;
 
 
 --
+-- Name: password_resets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.password_resets (
+    id bigint NOT NULL,
+    user_id bigint,
+    email public.citext NOT NULL,
+    expires_at timestamp without time zone NOT NULL,
+    email_sent_at timestamp without time zone,
+    completed_at timestamp without time zone,
+    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: password_resets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.password_resets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: password_resets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.password_resets_id_seq OWNED BY public.password_resets.id;
+
+
+--
 -- Name: recipe_equipments; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -481,6 +516,13 @@ ALTER TABLE ONLY public.ingredients ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: password_resets id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.password_resets ALTER COLUMN id SET DEFAULT nextval('public.password_resets_id_seq'::regclass);
+
+
+--
 -- Name: recipe_equipments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -574,6 +616,14 @@ ALTER TABLE ONLY public.favourites
 
 ALTER TABLE ONLY public.ingredients
     ADD CONSTRAINT ingredients_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: password_resets password_resets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.password_resets
+    ADD CONSTRAINT password_resets_pkey PRIMARY KEY (id);
 
 
 --
@@ -688,6 +738,13 @@ CREATE INDEX index_favourites_on_user_id ON public.favourites USING btree (user_
 --
 
 CREATE UNIQUE INDEX index_ingredients_on_name ON public.ingredients USING btree (name);
+
+
+--
+-- Name: index_password_resets_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_password_resets_on_user_id ON public.password_resets USING btree (user_id);
 
 
 --
@@ -851,6 +908,14 @@ ALTER TABLE ONLY public.email_confirmations
 
 
 --
+-- Name: password_resets fk_rails_526379cd99; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.password_resets
+    ADD CONSTRAINT fk_rails_526379cd99 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: recipe_equipments fk_rails_64ca1526c3; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -916,6 +981,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210122011625'),
 ('20210123092540'),
 ('20210123093810'),
-('20210128032257');
+('20210128032257'),
+('20210131113732');
 
 

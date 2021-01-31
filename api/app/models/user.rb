@@ -25,6 +25,7 @@ class User < ApplicationRecord
   has_many :sessions, class_name: 'UserSession', dependent: :delete_all, inverse_of: :user
 
   has_many :email_confirmations, dependent: :delete_all, inverse_of: :user
+  has_many :password_resets, dependent: :delete_all, inverse_of: :user
 
   has_many :favourites, dependent: :destroy, inverse_of: :user
   has_many :favourited_recipes, through: :favourites, source: :favouriteable, source_type: 'Recipe'
