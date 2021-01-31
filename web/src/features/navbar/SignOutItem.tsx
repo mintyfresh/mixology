@@ -12,7 +12,7 @@ const SIGN_OUT_MUTATION = gql`
   }
 `;
 
-export const SignOutButton = () => {
+export const SignOutItem = () => {
   const history = useHistory();
   const { setCurrentSession } = useCurrentSession();
   const [signOut, { loading }] = useMutation<SignOutMutation>(SIGN_OUT_MUTATION, {

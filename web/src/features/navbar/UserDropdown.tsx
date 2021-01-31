@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { SignOutButton } from './SignOutButton';
+import { SignOutItem } from './SignOutItem';
 
 export interface UserDropdownProps {
   displayName: string;
@@ -24,7 +24,7 @@ export const UserDropdown: React.FC<UserDropdownProps> = ({ displayName }) => {
         <NavDropdown.Item>Change Password</NavDropdown.Item>
       </LinkContainer>
       <NavDropdown.Divider />
-      <SignOutButton />
+      <SignOutItem />
     </NavDropdown>
   )
 };
