@@ -13,8 +13,8 @@ FactoryBot.define do
       Types::SignUpInputType.new(ruby_kwargs: arguments.to_kwargs, context: nil, defaults_used: Set.new)
     end
 
-    email { Faker::Internet.email }
-    display_name { Faker::Internet.username }
+    email
+    display_name
     password { Faker::Internet.password }
     password_confirmation { password }
     date_of_birth { Faker::Date.between(from: 80.years.ago, to: 20.years.ago) }
