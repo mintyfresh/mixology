@@ -35,7 +35,7 @@ export const AppNavbar: React.FC = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="md" className="mb-3">
       <Container>
-        <Navbar.Brand href="/">Mix</Navbar.Brand>
+        <Navbar.Brand href="/">Mixonomy</Navbar.Brand>
         <Navbar.Toggle aria-controls="app-navbar-collapse" />
         <Navbar.Collapse id="app-navbar-collapse">
           <Nav className="mr-auto">
