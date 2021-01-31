@@ -45,4 +45,24 @@ RSpec.describe RecipePolicy, type: :policy do
         .and not_permit(user, deleted_recipe)
     end
   end
+
+  permissions :update?, :destroy? do
+    it 'does not permit guests to modify recipes' do
+      expect(policy).not_to permit(nil, recipe)
+    end
+
+    it 'permits recipe authors to modify their own recipes' do
+      expect(policy).to permit(recipe.author, recipe)
+    end
+
+    it "does not permit users to modify recipes they don't own" do
+      expect(policy).not_to permit(user, recipe)
+    end
+
+    it 'does not permit anyone to modify deleted recipes' do
+      expect(policy).to not_permit(nil, deleted_recipe)
+        .and not_permit(deleted_recipe.author, deleted_recipe)
+        .and not_permit(user, deleted_recipe)
+    end
+  end
 end

@@ -19,6 +19,10 @@ class RecipePolicy < ApplicationPolicy
     show? && current_user.present?
   end
 
+  def update?
+    show? && author?
+  end
+
   def destroy?
     show? && author?
   end
