@@ -211,6 +211,7 @@ CREATE TABLE public.recipe_ingredients (
     ingredient_id bigint NOT NULL,
     quantity_amount double precision,
     quantity_unit character varying,
+    optional boolean DEFAULT false NOT NULL,
     created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
 );

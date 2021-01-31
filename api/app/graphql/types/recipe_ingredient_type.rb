@@ -7,6 +7,7 @@ module Types
     field :quantity, String, null: true
     field :quantity_amount, Float, null: true
     field :quantity_unit, String, null: true
+    field :optional, Boolean, null: false
 
     def name
       Loaders::AssociationLoader.for(RecipeIngredient, :ingredient).load(object).then(&:name)

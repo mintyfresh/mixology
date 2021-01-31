@@ -9,6 +9,7 @@
 #  ingredient_id   :bigint           not null
 #  quantity_amount :float
 #  quantity_unit   :string
+#  optional        :boolean          default(FALSE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
@@ -31,6 +32,10 @@ FactoryBot.define do
     trait :with_quantity do
       quantity_amount { rand(1..100) }
       quantity_unit { RecipeEquipment::SUPPORTED_UNITS.sample }
+    end
+
+    trait :optional do
+      optional { true }
     end
   end
 end

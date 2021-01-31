@@ -9,6 +9,7 @@
 #  ingredient_id   :bigint           not null
 #  quantity_amount :float
 #  quantity_unit   :string
+#  optional        :boolean          default(FALSE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #

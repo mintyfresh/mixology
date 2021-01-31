@@ -57,6 +57,10 @@ FactoryBot.define do
       quantity_amount { rand(1..100) }
       quantity_unit { RecipeIngredient::SUPPORTED_UNITS.sample }
     end
+
+    trait :optional do
+      optional { true }
+    end
   end
 
   factory :equipment_fragment, class: 'Hash' do
