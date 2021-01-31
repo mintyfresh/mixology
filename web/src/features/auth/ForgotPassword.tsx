@@ -45,7 +45,7 @@ export const ForgotPassword = () => {
       });
     }}>
       <Form.Group>
-        <Form.Label>Please enter your email</Form.Label>
+        <Form.Label>Account Email</Form.Label>
         <Form.Control
           name="email"
           type="email"
@@ -54,6 +54,9 @@ export const ForgotPassword = () => {
           onChange={(event) => setEmail(event.currentTarget.value)}
           isInvalid={errors.isInvalid('email')}
         />
+        <Form.Text muted>
+          We'll send you a recovery link so you can reset your password.
+        </Form.Text>
         <FormControlErrors attribute="email" errors={errors} />
       </Form.Group>
       <FormBaseErrors errors={errors} />

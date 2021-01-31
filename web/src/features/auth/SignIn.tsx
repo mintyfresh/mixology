@@ -1,7 +1,7 @@
 import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { SignInMutation, SignInMutationVariables } from '../../graphql/types';
 import { CURRENT_SESSION_FRAGMENT, useCurrentSession } from '../../lib/current-session';
 import { ValidationErrorsMap, VALIDATION_ERROR_FRAGMENT } from '../../lib/validation-errors-map';
@@ -79,6 +79,7 @@ export const SignIn: React.FC = () => {
           isInvalid={errors.isInvalid('password')}
         />
         <FormControlErrors attribute="password" errors={errors} />
+        <Link to="/forgot-password">Forgot your password?</Link>
       </Form.Group>
       <FormBaseErrors errors={errors} />
       <Form.Group className="text-right">
