@@ -23,7 +23,7 @@
 #
 FactoryBot.define do
   factory :password_reset do
-    association :user, strategy: :build
+    association :user, :with_password, strategy: :build
 
     email { user.email }
 

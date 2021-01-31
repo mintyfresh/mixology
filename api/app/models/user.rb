@@ -45,8 +45,12 @@ class User < ApplicationRecord
   end
 
   # @param credential_class [Class<UserCredential>]
+  # @param build_if_missing [Boolean]
   # @return [UserCredential, nil]
-  def credential(credential_class)
-    credentials.find_by(type: credential_class.sti_name)
+  def credential(credential_class, build_if_missing: false)
+    credential = credentials.find_by(type: credential_class.sti_name)
+    return credential if credential || build_if_missing
+
+    credentials.build(type: credential_class.sti_name)
   end
 end
