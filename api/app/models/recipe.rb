@@ -25,6 +25,7 @@
 #
 class Recipe < ApplicationRecord
   include Favouriteable
+  include Reportable
   include SoftDeletable
 
   NAME_MAX_LENGTH        = 100

@@ -25,6 +25,7 @@
 #  fk_rails_...  (recipe_id => recipes.id)
 #
 class Review < ApplicationRecord
+  include Reportable
   include SoftDeletable
 
   BODY_MIN_LENGTH = 5

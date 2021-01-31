@@ -342,6 +342,40 @@ ALTER SEQUENCE public.recipes_id_seq OWNED BY public.recipes.id;
 
 
 --
+-- Name: reports; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reports (
+    id bigint NOT NULL,
+    author_id bigint NOT NULL,
+    reportable_type character varying NOT NULL,
+    reportable_id bigint NOT NULL,
+    message character varying NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: reports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.reports_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: reports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.reports_id_seq OWNED BY public.reports.id;
+
+
+--
 -- Name: reviews; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -551,6 +585,13 @@ ALTER TABLE ONLY public.recipes ALTER COLUMN id SET DEFAULT nextval('public.reci
 
 
 --
+-- Name: reports id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reports ALTER COLUMN id SET DEFAULT nextval('public.reports_id_seq'::regclass);
+
+
+--
 -- Name: reviews id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -656,6 +697,14 @@ ALTER TABLE ONLY public.recipe_steps
 
 ALTER TABLE ONLY public.recipes
     ADD CONSTRAINT recipes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: reports reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reports
+    ADD CONSTRAINT reports_pkey PRIMARY KEY (id);
 
 
 --
@@ -801,6 +850,20 @@ CREATE INDEX index_recipe_steps_on_recipe_id ON public.recipe_steps USING btree 
 --
 
 CREATE INDEX index_recipes_on_author_id ON public.recipes USING btree (author_id);
+
+
+--
+-- Name: index_reports_on_author_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reports_on_author_id ON public.reports USING btree (author_id);
+
+
+--
+-- Name: index_reports_on_reportable; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reports_on_reportable ON public.reports USING btree (reportable_type, reportable_id);
 
 
 --
@@ -964,6 +1027,14 @@ ALTER TABLE ONLY public.recipe_steps
 
 
 --
+-- Name: reports fk_rails_fe175936ce; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reports
+    ADD CONSTRAINT fk_rails_fe175936ce FOREIGN KEY (author_id) REFERENCES public.users(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -982,6 +1053,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210123092540'),
 ('20210123093810'),
 ('20210128032257'),
-('20210131113732');
+('20210131113732'),
+('20210131131506');
 
 
