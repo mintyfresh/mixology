@@ -52,7 +52,7 @@ export const CreateRecipe: React.FC = () => {
       recipe={recipe}
       onRecipeChange={setRecipe}
       errors={errors}
-      disabled={loading}
+      submitted={loading}
       onSubmit={(recipe) => {
         createRecipe({ variables: { input: recipe } });
       }}

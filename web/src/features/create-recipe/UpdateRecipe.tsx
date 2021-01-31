@@ -72,7 +72,10 @@ export const UpdateRecipe: React.FC = () => {
       errors={ValidationErrorsMap.build(mutation.data?.updateRecipe?.errors)}
       recipe={recipe}
       onRecipeChange={setRecipe}
-      disabled={mutation.loading}
+      onCancel={() => {
+        history.push(`/recipes/${id}`);
+      }}
+      submitted={mutation.loading}
       onSubmit={(recipe) => {
         updateRecipe({
           variables: { id, input: recipe }

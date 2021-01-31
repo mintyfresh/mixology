@@ -11,11 +11,12 @@ export interface RecipeFormProps {
   recipe: RecipeInput;
   onRecipeChange?: (recipe: RecipeInput) => void;
   errors: ValidationErrorsMap;
+  onCancel?: () => void;
   onSubmit?: (recipe: RecipeInput) => void;
-  disabled?: boolean;
+  submitted?: boolean;
 }
 
-export const RecipeForm: React.FC<RecipeFormProps> = ({ cta, recipe, onRecipeChange, errors, onSubmit, disabled }) => {
+export const RecipeForm: React.FC<RecipeFormProps> = ({ cta, recipe, onRecipeChange, errors, onCancel, onSubmit, submitted }) => {
   const name = recipe.name;
   const description = recipe.description || '';
   const steps = recipe.steps || [''];
@@ -52,8 +53,15 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ cta, recipe, onRecipeCha
       </Form.Group>
       <RecipeSteps steps={steps} errors={errors} onChange={(steps) => onChange({ steps })} />
       <FormBaseErrors errors={errors} />
-      <Form.Group>
-        <Button type="submit" disabled={disabled}>{cta}</Button>
+      <Form.Group className="text-right">
+        {onCancel &&
+          <Button type="button" variant="secondary" className="float-left" onClick={() => onCancel()}>
+            Cancel
+          </Button>
+        }
+        <Button type="submit" disabled={submitted}>
+          {cta}
+        </Button>
       </Form.Group>
     </Form>
   );
