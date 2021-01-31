@@ -34,7 +34,12 @@ class PasswordReset < ApplicationRecord
   # @param token [String, nil]
   # @return [PasswordReset, nil]
   def self.find_by_token(token)
-    GlobalID::Locator.locate_signed(token, only: self) if token.present?
+    return if token.blank?
+
+    password_reset = GlobalID::Locator.locate_signed(token, only: self)
+    return if password_reset.nil? || password_reset.completed?
+
+    password_reset
   rescue ActiveRecord::RecordNotFound
     nil
   end
