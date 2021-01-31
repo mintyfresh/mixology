@@ -10,6 +10,7 @@ import { RecipeDetail } from './features/recipes/RecipeDetail';
 import { ChangePassword } from './features/account/ChangePassword';
 import { Welcome } from './features/welcome/Welcome';
 import { ConfirmEmail } from './features/confirm-email/ConfirmEmail';
+import { UpdateRecipe } from './features/create-recipe/UpdateRecipe';
 
 export const App: React.FC = () => {
   return (
@@ -32,8 +33,11 @@ export const App: React.FC = () => {
           <Route path="/recipes/new">
             <CreateRecipe />
           </Route>
-          <Route path="/recipes/:id">
+          <Route path="/recipes/:id" exact>
             <RecipeDetail />
+          </Route>
+          <Route path="/recipes/:id/edit">
+            <UpdateRecipe />
           </Route>
           <Route path="/sign-in">
             <SignIn />

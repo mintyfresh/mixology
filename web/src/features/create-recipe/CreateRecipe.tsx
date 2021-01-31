@@ -1,12 +1,12 @@
 import { gql, useMutation } from '@apollo/client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { CreateRecipeMutation, CreateRecipeMutationVariables } from '../../graphql/types';
+import { CreateRecipeMutation, CreateRecipeMutationVariables, RecipeInput } from '../../graphql/types';
 import { ValidationErrorsMap } from '../../lib/validation-errors-map';
 import { RecipeForm } from './RecipeForm';
 
 const CREATE_RECIPE_MUTATION = gql`
-  mutation CreateRecipe($input: CreateRecipeInput!) {
+  mutation CreateRecipe($input: RecipeInput!) {
     createRecipe(input: $input) {
       recipe {
         id
@@ -26,8 +26,14 @@ const CREATE_RECIPE_MUTATION = gql`
 `;
 
 export const CreateRecipe: React.FC = () => {
+  const [recipe, setRecipe] = useState<RecipeInput>({
+    name: '',
+    description: '',
+    steps: ['']
+  });
+
   const history = useHistory();
-  const [createRecipe, { data }] = useMutation<CreateRecipeMutation, CreateRecipeMutationVariables>(
+  const [createRecipe, { data, loading }] = useMutation<CreateRecipeMutation, CreateRecipeMutationVariables>(
     CREATE_RECIPE_MUTATION,
     {
       onCompleted: ({ createRecipe }) => {
@@ -43,10 +49,13 @@ export const CreateRecipe: React.FC = () => {
   return (
     <RecipeForm
       cta="Create Recipe"
+      recipe={recipe}
+      onRecipeChange={setRecipe}
+      errors={errors}
+      disabled={loading}
       onSubmit={(recipe) => {
         createRecipe({ variables: { input: recipe } });
       }}
-      errors={errors}
     />
   )
 };
