@@ -40,7 +40,7 @@ FactoryBot.define do
       end
 
       after(:build) do |recipe, e|
-        recipe.ingredients = build_list(:ingredient, e.ingredients_count, recipe: recipe)
+        recipe.recipe_ingredients = build_list(:recipe_ingredient, e.ingredients_count, recipe: recipe)
       end
     end
 
@@ -50,7 +50,7 @@ FactoryBot.define do
       end
 
       after(:build) do |recipe, e|
-        recipe.equipments = build_list(:equipment, e.equipments_count, recipe: recipe)
+        recipe.recipe_equipments = build_list(:recipe_equipment, e.equipments_count, recipe: recipe)
       end
     end
 
