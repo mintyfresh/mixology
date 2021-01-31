@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import { AppNavbar } from './features/navbar/AppNavbar';
 import { SignIn } from './features/auth/SignIn';
 import { SignUp } from './features/auth/SignUp';
-import { CreateRecipe } from './features/recipes/CreateRecipe';
+import { CreateRecipe } from './features/create-recipe/CreateRecipe';
 import { MyRecipes } from './features/recipes/MyRecipes';
 import { RecipeDetail } from './features/recipes/RecipeDetail';
 import { ChangePassword } from './features/account/ChangePassword';
