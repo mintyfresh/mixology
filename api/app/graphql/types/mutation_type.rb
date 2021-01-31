@@ -9,6 +9,8 @@ module Types
     field :confirm_email, mutation: Mutations::ConfirmEmailMutation
 
     field :request_password_reset, mutation: Mutations::RequestPasswordResetMutation
+    field :perform_password_reset, mutation: Mutations::PerformPasswordResetMutation
+
     field :change_password, mutation: Mutations::ChangePasswordMutation
 
     field :create_recipe, mutation: Mutations::CreateRecipeMutation

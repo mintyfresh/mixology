@@ -63,5 +63,19 @@ RSpec.describe PerformPasswordResetForm, type: :form do
         expect { perform }.to change { user.credential(UserPasswordCredential).last_changed_at }.to(Time.current)
       end
     end
+
+    context 'when the password reset has already been completed' do
+      let(:password_reset) { create(:password_reset, :completed) }
+
+      it 'returns a list of errors' do
+        expect(perform).to be_a(ActiveModel::Errors)
+          .and be_of_kind(:base, :completed)
+      end
+
+      it 'does not perform a password change' do
+        perform
+        expect(user.authenticate(UserPasswordCredential, input[:new_password])).to be_falsey
+      end
+    end
   end
 end
