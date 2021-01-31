@@ -7,6 +7,19 @@ class RequestPasswordResetForm < ApplicationForm
 
   # @return [PasswordReset]
   def perform
-    PasswordReset.create!(email: email)
+    password_reset = PasswordReset.create!(email: email)
+
+    # Only send a password reset email if a user actually exists for the requested email address.
+    send_password_reset_email(password_reset) if password_reset.user.present?
+
+    password_reset
+  end
+
+private
+
+  # @param password_reset [PasswordReset]
+  # @return [void]
+  def send_password_reset_email(password_reset)
+    PasswordResetMailer.with(password_reset: password_reset).request_password_reset.deliver_later
   end
 end

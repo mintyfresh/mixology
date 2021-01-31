@@ -41,6 +41,10 @@ RSpec.describe RequestPasswordResetForm, type: :form do
       expect(perform.user).to eq(user)
     end
 
+    it 'sends a password reset email to the specified email' do
+      expect { perform }.to have_enqueued_mail(PasswordResetMailer, :request_password_reset)
+    end
+
     context 'when the email does not have a matching user' do
       let(:email) { Faker::Internet.email }
 
@@ -48,6 +52,10 @@ RSpec.describe RequestPasswordResetForm, type: :form do
         expect(perform).to be_a(PasswordReset)
           .and be_persisted
           .and have_attributes(user: nil)
+      end
+
+      it 'does not send a password reset email' do
+        expect { perform }.not_to have_enqueued_mail(PasswordResetMailer, :request_password_reset)
       end
     end
   end
